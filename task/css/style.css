@@ -52,7 +52,7 @@ table
 {
     width: 100%;
     border: 1px solid black;
-    height: 50vh;
+    height: 80vh;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0px;
@@ -75,12 +75,6 @@ th {
 
 }
 
-/*tfoot {
-    border: none !important;
-    text-align: center;
-    font-size: 25px;
-
-}*/
 
 td {
     font-size: 20px;
@@ -98,8 +92,20 @@ button {
 }
 
 .results {
+    border-bottom: none;
     border-right: none;
     border-collapse: collapse;
     width: 100%;
     font-size: 60px;
+    
+}
+
+input {
+    border: 1px black solid;
+    outline: none;
+    background-color: white;
+    color:black;
+    padding: 10px;
+    margin-top: 20px;
+
 }
