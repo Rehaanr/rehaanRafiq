@@ -1,5 +1,6 @@
-$('.btn1').click(function(){
-    
+$document.ready(function(){
+
+    $('.btn1').on('click', () => {
 
         $.ajax({
             url: "php/weather.php",
@@ -7,15 +8,26 @@ $('.btn1').click(function(){
             dataType: 'json',
             data: {
     
-                lat: $('.lat').val(),
-                lng: $('.lng').val()
+                lat: $('#nearbyweatherlat').val(),
+                lng: $('#nearbyweatherlng').val()
             },
     
             success: function(result) {
                 console.log(result);
+
+            if(result.status.name == "ok") {
+                $('.results').html(result['data']);
+            }
     
     
             }
         })
-    })
+    
+       }) 
+})
+
+
+
+
+
 

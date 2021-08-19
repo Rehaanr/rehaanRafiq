@@ -27,8 +27,8 @@
             <td>Find Nearby Weather</td>
             <div class="param">
                 <td> Returns a list of weather stations with the most recent weather observation <br>
-                    <input class="lat" type="number" placeholder="Enter Latitude"> 
-                    <input class="lng" type="number" placeholder="Enter Longitude"> 
+                    <input id="nearbyweatherlat" type="number" placeholder="Enter Latitude"> 
+                    <input id="nearbyweatherlng" type="number" placeholder="Enter Longitude"> 
                 </td>
             </div>
             
@@ -48,16 +48,15 @@
             <td>Description <br><input type="text"></td>
             <td><button class="btn3">Submit</button></td>
         </tr>
-    </table>
-    <table>
-        <tr class="results">
-            <td>RESULTS:</td>
+    
+    
+        <tr class="results" colspan="3">
+            <td colspan="3">RESULTS:</td>
             
             
         </tr>
-    </table>
 
-    
+    </table>
        
 
     <div class="preloader">
@@ -65,7 +64,7 @@
     </div>
     
 
-    <script src="vendors/jquery/jquery.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
