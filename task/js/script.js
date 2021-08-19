@@ -1,10 +1,11 @@
-$document.ready(function(){
 
-    $('.btn1').on('click', () => {
+$(document).ready(function() {
+
+    $('.btn1').click(function() {
 
         $.ajax({
             url: "php/weather.php",
-            type: 'POST',
+            type: 'GET',
             dataType: 'json',
             data: {
     
@@ -16,7 +17,8 @@ $document.ready(function(){
                 console.log(result);
 
             if(result.status.name == "ok") {
-                $('.results').html(result['data']);
+                
+                $('.results').html(result['temperature']);
             }
     
     
@@ -24,7 +26,7 @@ $document.ready(function(){
         })
     
        }) 
-})
+    })
 
 
 

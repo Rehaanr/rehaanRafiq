@@ -92,11 +92,15 @@ button {
 }
 
 .results {
-    border-bottom: none;
-    border-right: none;
     border-collapse: collapse;
-    width: 100%;
-    font-size: 60px;
+    font-size: 30px;
+    border-bottom: 1px solid white;
+    transform: translateY(50%);
+    
+}
+
+.resultsRow{
+    height: 20vh;
     
 }
 
