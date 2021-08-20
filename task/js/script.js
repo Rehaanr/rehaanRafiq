@@ -5,7 +5,7 @@ $(document).ready(function() {
 
         $.ajax({
             url: "php/weather.php",
-            type: 'GET',
+            type: 'POST',
             dataType: 'json',
             data: {
     

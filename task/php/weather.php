@@ -2,12 +2,11 @@
 
 
 ini_set('display_errors', 'On');
-error_reporting(E_All);
+error_reporting(E_ALL);
 
 $executionStartTime = microtime(true);
 
-$url='http://api.geonames.org/findNearByWeatherJSON?lat=' . $_REQUEST['lat'] . '&lng=' . $_REQUEST['lng'] . '&
-username=rehaan7';
+$url='http://api.geonames.org/findNearByWeatherJSON?lat=' . $_REQUEST['lat'] . '&lng=' . $_REQUEST['lng'] . '&username=rehaan7';
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -27,10 +26,9 @@ $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime)
 $ouput['data'] = $decode['weatherObservation'];
 
 
-header('Content-type : application/json; charset=UTF-8');
+header('Content-type: application/json; charset=UTF-8');
 
 echo json_encode($output);
-
 
 
 
