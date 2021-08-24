@@ -20,7 +20,6 @@ $(document).ready(function() {
 
             if(result.status.name == "ok") {
                 
-                $('#results').html(result.data.stationName);
                 $('#results').html(result.data.temperature);
 
             }
