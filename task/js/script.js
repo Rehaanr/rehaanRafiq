@@ -20,8 +20,7 @@ $(document).ready(function() {
 
             if(result.status.name == "ok") {
                 
-                $('.results').html(result.data.stationName);
-                $('.results2').html(result.data.temperature);
+                $('#results').html(result.data.temperature);
 
             }
     
@@ -51,7 +50,7 @@ $(document).ready(function() {
 
             if(result.status.name == "ok") {
                 
-                $('.results2').html(result.data.name);
+                $('.results').html(result.data.map(a=> a.adminName1).join(','));
                 
 
             }
@@ -82,7 +81,7 @@ $(document).ready(function() {
 
             if(result.status.name == "ok") {
                 
-                $('.results3').html(result.data.name);
+                $('#results').html(result.data);
                 
 
             }
