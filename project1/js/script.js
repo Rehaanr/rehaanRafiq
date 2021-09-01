@@ -5,8 +5,3 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }).addTo(mymap);
 
-var polygon = L.polygon([
-    [55.3781, 3.4360],
-    [51.503, -0.06],
-    [51.51, -0.047]
-]).addTo(mymap);
