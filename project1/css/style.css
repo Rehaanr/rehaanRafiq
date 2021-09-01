@@ -24,24 +24,34 @@ body {
 /* Navbar */
 
 .navbar {
+    width: 35.4%;
+    z-index: -1;
     position: relative;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction:row;
     align-items: center;
     justify-content: space-between;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    z-index: 3;
 }
 
-.navbar-dark {
-    background-color: rgba(199, 199, 199, 0.6);
+.navbar-dark > .container-fluid {
+    width: 50%;
+    background-color: rgba(187, 187, 187, 0.897);
+    border: 2px solid rgb(250, 76, 76);
+    border-radius: 6px;
+    
+    
 }
+
 
 select {
+    
     background-color: black;
     color: #fff;
     padding: 10px;
-    border-radius: 5px;
     padding-right: 30px;
-
+    border-radius: 5px;
+    
 }
