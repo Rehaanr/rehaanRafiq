@@ -1,3 +1,4 @@
+// Loading map
 var mymap = L.map('mapid').setView([52.3555, 1.1743], 5);
 
 var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
@@ -5,3 +6,32 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }).addTo(mymap);
 
+// Loading data using ajax 
+
+    $.ajax({
+        url: "php/GetAllCountries.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+           
+        
+        },
+
+        success: function(result) {
+            
+            console.log(result);
+
+        if(result.status.name == "ok") {
+            
+            
+
+        }
+
+
+        }
+    })
+
+   
+
+
+        
