@@ -12,10 +12,13 @@ $countries = [];
 for($country = 0; $country < count($data['features']); $country++) {
 array_push($countries,
 (object)[
-$country => $data['features']['name'][$country]['properties']['iso_a2']]);
+$data['features']['name'][$country]['properties']['iso_a2']]);
 }
-
 echo print_r($countries);
+
+// Getting Country Borders
+
+
 
 $output["status"]["code"] = "200";
 $output["status"]["name"] = "ok";
