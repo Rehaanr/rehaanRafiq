@@ -9,27 +9,26 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 // Loading data using ajax 
 
     $.ajax({
-        url: "php/GetAllCountries.php",
+        url: "../php/getallcountries.php",
         type: 'GET',
         dataType: 'json',
         data: {
-           
-        
         },
 
         success: function(result) {
-            
-            console.log(result);
-
+        console.log(result);
         if(result.status.name == "ok") {
             
-            
+            countryList = result['countryList'];
+
+            $('countriesDataList').append($('<option></option>'),{
+                value: countryList['iso_a2'],
+                name: countryList['name']
+            });
 
         }
-
-
-        }
-    })
+    }
+    });
 
    
 
