@@ -12,7 +12,7 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
         url: "../php/getallcountries.php",
         type: 'GET',
         dataType: 'json',
-        data: { requestType: 'initial', code: ctry},
+        data: {},
 
         success: function(result) {
         console.log(result);
