@@ -9,7 +9,7 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 // Adding country Lists
 
     $.ajax({
-        url: "../php/getallcountries.php",
+        url: "php/getallcountries.php",
         type: 'GET',
         dataType: 'json',
         data: {},
@@ -25,7 +25,7 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
                     let option = document.createElement("option");
                     option.value = country['code'];
                     option.text = country['name'];
-                    $("#countriesDataList").appendChild(option);
+                    $("#countriesDataList").append(option);
                     
                 });
         }
