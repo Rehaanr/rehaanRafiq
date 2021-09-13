@@ -6,14 +6,13 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }).addTo(mymap);
 
-// Loading data using ajax 
+// Adding country Lists
 
     $.ajax({
         url: "../php/getallcountries.php",
         type: 'GET',
         dataType: 'json',
-        data: {
-        },
+        data: { requestType: 'initial', code: ctry},
 
         success: function(result) {
         console.log(result);
@@ -21,11 +20,14 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
             
             countryList = result['countryList'];
 
-            $('countriesDataList').append($('<option></option>'),{
-                value: countryList['iso_a2'],
-                name: countryList['name']
-            });
-
+            
+                countryList.forEach(country => {
+                    let option = document.createElement("option");
+                    option.value = country['code'];
+                    option.text = country['name'];
+                    $("#countriesDataList").appendChild(option);
+                    
+                });
         }
     }
     });

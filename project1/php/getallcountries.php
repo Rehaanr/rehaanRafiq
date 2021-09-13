@@ -1,6 +1,5 @@
 <?php 
 
-$country = $_POST['country'];
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
 
@@ -11,12 +10,11 @@ $data = json_decode($data_as_string, true);
 $countries = [];
 for($country = 0; $country < count($data['features']); $country++) {
 array_push($countries,
-(object)[
-$data['features']['name'][$country]['properties']['iso_a2']]);
+(object)['code' => $data['features'][$country]['properties']['iso_a2'], 'name' => $data['features'][$country]['properties']['name']]);
 }
-echo print_r($countries);
 
 // Getting Country Borders
+
 
 
 
