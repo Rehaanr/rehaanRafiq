@@ -24,7 +24,6 @@ $output["status"]["description"] = "success";
 
 // Country Polygons
 $countrySelected = $_REQUEST['selectedCountry'];
-
 $output["countryPolygons"] = getCountryPolygons($countrySelected);
 
 
