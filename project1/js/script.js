@@ -35,32 +35,32 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 
    
     // Country Polygons
+    $('#countriesDataList').on('change', function(){
+        $.ajax({
+            url: "php/getcountrypolygon.php?selectedCountry=" + this.value + "&callback=?",
+            type: "GET",
+            dataType: "json",
+            data: {
+                //selectedCountry: $('.option').val()
+            },
+    
+            success: function(result){
+                console.log(result);
+                if(result.status.name == "ok") {
+    
+                    countryPolygon = result["countryPolygons"];
+                    
 
-    $.ajax({
-        url: "php/getcountrypolygon.php",
-        type: "GET",
-        dataType: "json",
-        data: {
-           selectedCountry: $('.option').val()
-        },
-
-        success: function(result){
-            console.log(result);
-            if(result.status.name == "ok") {
-
-                countryPolygon = result["countryPolygons"];
-
-                L.geoJSON(countryPolygon, {
-                    style: {color: "rgba(0, 28, 119, 0.678)", fillColor: "#fff"} 
-                }).addTo(mymap);
-
-                $('.option').append({
-                    value: countryPolygon['properties']['iso_a2'],
-                    selected: countryPolygon['properties']['name']
-                })
+                    L.geoJSON(countryPolygon, {
+                        style: {color: "rgba(0, 28, 119, 0.678)", fillColor: "#fff"} 
+                    }).addTo(mymap);
+                    
+                   }
             }
-        }
+    
+        });
+    })
 
-    });
 
+    
         
