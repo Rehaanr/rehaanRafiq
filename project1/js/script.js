@@ -37,7 +37,7 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
     // Country Polygons
     $('#countriesDataList').on('change', function(){
         $.ajax({
-            url: "php/getcountrypolygon.php?selectedCountry=" + this.value + "&callback=?",
+            url: "php/getcountrypolygon.php?selectedCountry=" + $('#countriesDataList').children().val() + "&callback=?",
             type: "GET",
             dataType: "json",
             data: {
