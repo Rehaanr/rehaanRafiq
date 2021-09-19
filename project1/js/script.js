@@ -69,7 +69,8 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
 // Information
 L.easyButton("fas fa-solid fa-circle-info fa-lg", 
 function(){
-    $('#countryInfoModalLabel').html('Testing');
+    $('#countryInfoModalLabel').html('England');
+    $('#countryInfoModal').modal('show');
   }).addTo(mymap);
 
 // Currency

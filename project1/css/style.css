@@ -49,3 +49,19 @@ select {
     
 }
 
+.modal-header{
+    border-bottom: 1px solid white;
+    
+}
+
+.modal-content {
+    background-color: rgba(0, 28, 119, 0.781);
+    color: #fff;
+    border: 1px solid black;
+}
+
+.modal-dialog {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
