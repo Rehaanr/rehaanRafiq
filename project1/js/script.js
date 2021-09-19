@@ -37,7 +37,7 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
     // Country Polygons
     $('#countriesDataList').on('change', function(){
         $.ajax({
-            url: "php/getcountrypolygon.php?selectedCountry=" + $('#countriesDataList').children().val() + "&callback=?",
+            url: "php/getcountrypolygon.php?selectedCountry=" + $('#countriesDataList').val(),
             type: "GET",
             dataType: "json",
             data: {
@@ -52,15 +52,35 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
                     
 
                     L.geoJSON(countryPolygon, {
-                        style: {color: "rgba(0, 28, 119, 0.678)", fillColor: "#fff"} 
+                        style: {color: "rgba(0, 28, 119, 0.678)", fillColor: "#595959"} 
                     }).addTo(mymap);
                     
+                    if($('#countriesDataList').val() == '') {
+                        mymap.remove();
+                    }
                    }
             }
     
         });
     })
-
-
     
-        
+// Buttons //
+
+// Information
+L.easyButton("fas fa-solid fa-circle-info fa-lg", 
+function(){
+    $('#countryInfoModalLabel').html('Testing');
+  }).addTo(mymap);
+
+// Currency
+L.easyButton("fa-solid fa-hand-holding-dollar fa-lg", 
+function(){
+
+  }).addTo(mymap);
+
+
+// Weather
+L.easyButton("fas fa-cloud-sun-rain fa-lg",
+function(){
+
+  }).addTo(mymap);

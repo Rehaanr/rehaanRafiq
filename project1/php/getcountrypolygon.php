@@ -12,7 +12,7 @@ $data_as_string = file_get_contents("../data/countryBorders.geo.json");
 $data = json_decode($data_as_string, true);
     foreach($data['features'] as $country) {
         if ($country['properties']['iso_a2'] == $countrySelected) {
-        return $country['geometry']['type']['coordinates'];
+        return $country['geometry'];
         }
     }
 }
