@@ -72,3 +72,8 @@ select {
     border: solid 1px rgb(245, 49, 49);
     outline: none;
 }
+
+.modalInfo{
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+}
