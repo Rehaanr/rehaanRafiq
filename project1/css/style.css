@@ -65,3 +65,10 @@ select {
     padding-bottom: 80px;
 }
 
+.leaflet-bar button{
+    background-color: rgba(0, 28, 119, 0.781);
+    color: white;
+    cursor: pointer;
+    border: solid 1px rgb(245, 49, 49);
+    outline: none;
+}
