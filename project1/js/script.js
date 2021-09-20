@@ -65,16 +65,39 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
     })
     
 // Buttons //
+$.ajax({
+    url: "php/getcountrypolygon.php?getcountryinfo",
+    type: "POST",
+    dataType: "json",
+    data: {
+        selectedCountry: $('#countriesDataList').val()
+    },
 
-// Information
-L.easyButton("fas fa-solid fa-circle-info fa-lg", 
-function(){
-    $('#countryInfoModalLabel').html('England');
-    $('#countryInfoModal').modal('show');
-  }).addTo(mymap);
+    success: function(result){
+        console.log(result);
+        if(result.status.name == "ok") {
+    
+            const countriesInfo = result['getCountryInfo'];
+
+            // Information Button
+            L.easyButton("fa-solid fa-info fa-lg", 
+            function(){
+                $('#countryInfoModalLabel').html(result.data.countryName);
+                
+                
+                
+                
+                
+                
+                
+                $('#countryInfoModal').modal('show');
+            }).addTo(mymap);
+    
+    }}});
+
 
 // Currency
-L.easyButton("fa-solid fa-hand-holding-dollar fa-lg", 
+L.easyButton("fa-solid fa-coins fa-lg", 
 function(){
 
   }).addTo(mymap);
