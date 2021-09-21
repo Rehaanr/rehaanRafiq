@@ -49,6 +49,8 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
                 if(result.status.name == "ok") {
     
                     countryPolygon = result["countryPolygons"];
+                    geocoding = result['geocoding'];
+
                     
 
                     L.geoJSON(countryPolygon, {
@@ -77,20 +79,25 @@ $('#countriesDataList').on('change', function(){
         success: function(result){
             console.log(result);
             if(result.status.name == "ok") {
-        
-                const countriesInfo = result['getCountryInfo'];
+                
+                
+                let wikipediaInfo = result['wikipediaInfo'];
+                let countriesInfo = result['getCountryInfo'];
     
                 // Information Button
-                L.easyButton("fa-solid fa-info fa-lg", 
-                function(){
-                    $('#countryInfoModalLabel').html(result.data.countryName);
-                    
-                    
-                    $('#countryInfoModal').modal('show');
-                }).addTo(mymap);
-        
-    }}})});
+                L.easyButton('fa-solid fa-info fa-lg', function(){
 
+                }).addTo(mymap);
+
+               
+}}})});
+
+    // L.easyButton("fa-solid fa-info fa-lg", 
+    //     function(){
+    //     $('#countryInfoModalLabel').html();
+    //     $('#countryInfoModal').modal('show');
+    // }).addTo(mymap);
+    
 
 // Currency
 L.easyButton("fa-solid fa-coins fa-lg", 

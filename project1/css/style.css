@@ -70,7 +70,6 @@ select {
     color: white;
     cursor: pointer;
     border: solid 1px rgb(245, 49, 49);
-    outline: none;
 }
 
 .modalInfo{
