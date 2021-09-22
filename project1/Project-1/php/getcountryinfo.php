@@ -19,7 +19,7 @@ $countrySelected = $_REQUEST['selectedCountry'];
 $output['getCountryInfo'] = getCountryInfo($countrySelected);
 
 function wikipediaInfo($country){
-   $url = 'http://api.geonames.org/wikipediaSearchJSON?formatted=true&q='.urlencode($country).'&maxRows=10&username=rehaan7&style=full';
+   $url = 'http://api.geonames.org/wikipediaSearchJSON?formatted=true&q='.($country).'&maxRows=10&username=rehaan7&style=full';
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
