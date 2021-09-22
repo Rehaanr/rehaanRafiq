@@ -50,7 +50,10 @@ select {
 }
 
 .modal-header{
-    border-bottom: 1px solid white;
+    border-bottom: 2px solid white;
+    align-content: center;
+    text-align: center;
+    
     
 }
 
@@ -73,6 +76,11 @@ select {
 }
 
 .modalInfo{
-    border-bottom: 1px solid white;
-    padding-bottom: 10px;
+    border-bottom: 0.5px solid rgba(128, 128, 128, 0.788);
+    padding-bottom: 7px;
+    padding-left: 2px;
+}
+
+#modalP{
+    padding-top: 10px;
 }

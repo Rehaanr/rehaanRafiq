@@ -67,7 +67,7 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
     })
     
 // Buttons //
-// $('#countriesDataList').on('change', function(){
+ $('#countriesDataList').on('change', function(){
     $.ajax({
         url: "php/getcountryinfo.php",
         type: "POST",
@@ -85,20 +85,25 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
                 let countriesInfo = result['getCountryInfo'];
     
                 // Information Button
-                L.easyButton('fa-solid fa-info fa-lg', function(){
-                    $('#countryInfoModalLabel').html(countriesInfo['countryName']);
+                const informationButton = L.easyButton('fa-solid fa-info fa-lg', function(){
+                    $('#countryInfoModalLabel').html(countriesInfo[0]['countryName'] + ' -  ' + countriesInfo[0]['countryCode']);
+                    $('#countryInfoModalBody').html(
+                        `<p class="modalInfo" id="modalP">
+                            <b>Capital:</b> ${countriesInfo[0]['capital']}
+                        </p>
+                        <p class="modalInfo">
+                            <b>Continent:</b> ${countriesInfo[0]['continentName']}
+                        </p>
+                        <p class="modalInfo">
+                            <b>Population:</b> ${countriesInfo[0]['population']}
+                        </p>
+                    `)
                     $('#countryInfoModal').modal('show');
                 }).addTo(mymap);
 
                
-}}});
+}}})});
 
-    // L.easyButton("fa-solid fa-info fa-lg", 
-    //     function(){
-    //     $('#countryInfoModalLabel').html();
-    //     $('#countryInfoModal').modal('show');
-    // }).addTo(mymap);
-    
 
 // Currency
 L.easyButton("fa-solid fa-coins fa-lg", 
