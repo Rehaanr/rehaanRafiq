@@ -73,7 +73,8 @@ var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_brigh
         type: "POST",
         dataType: "json",
         data: {
-            selectedCountry: $('#countriesDataList').val()
+            selectedCountry: $('#countriesDataList').val(),
+            selectedCountryName: $('#countriesDataList option:selected').text()
         },
     
         success: function(result){
