@@ -1,10 +1,11 @@
 <?php 
 
+
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
 
-function getWeather($city) {
-    $url = 'http://api.openweathermap.org/data/2.5/weather?q='.$city.'&appid=e96c0a232f002e1ae6eba4777403e165';
+function getCurrency($currency) {
+    $url = 'https://openexchangerates.org/api/latest.json?app_id=13f1e9d013ad49bdbec3eb91c97caa4b&base='.$currency.'';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -12,9 +13,7 @@ function getWeather($city) {
     $result=curl_exec($ch);
     curl_close($ch);
     $decode = json_decode($result, true);
-    $decode['main'];
-    $decode['weather'];
-    return $decode;
+    return $decode['rates'];
 }
 
 function getCountryInfo($countrySelected) {
@@ -28,15 +27,15 @@ function getCountryInfo($countrySelected) {
     $decode = json_decode($result, true);
     return $decode['geonames'];
 }
+
+// Currency
+$currency = getCountryInfo($_REQUEST['selectedCountry'])[0]['currencyCode'];
+$output['getCurrency'] = getCurrency($currency);
+
+
 // Country Info
 $countrySelected = $_REQUEST['selectedCountry'];
 $output['getCountryInfo'] = getCountryInfo($countrySelected);
-
-// Weather
-$city = getCountryInfo($_REQUEST['selectedCountry'])[0]['capital'];
-$output['getWeather'] = getWeather($city);
-
-
 
 $output["status"]["code"] = "200";
 $output["status"]["name"] = "ok";

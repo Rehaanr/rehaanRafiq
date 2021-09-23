@@ -1,5 +1,6 @@
 <?php 
 
+
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
 
@@ -32,7 +33,7 @@ function wikipediaInfo($country){
 }
 
 $country = $_REQUEST['selectedCountryName'];
-$ouput['wikipediaInfo'] = wikipediaInfo($country);
+$output['wikipediaInfo'] = wikipediaInfo($country);
 
 $output["status"]["code"] = "200";
 $output["status"]["name"] = "ok";
