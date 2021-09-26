@@ -8,10 +8,29 @@ var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/
 	maxZoom: 20,
 	ext: 'png'
 }).addTo(mymap);
-// var Stadia_OSMBright = L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-// 	maxZoom: 20,
-// 	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-// }).addTo(mymap);
+
+// var redMarker = L.ExtraMarkers.icon({
+    
+//     iconSize: [34, 34],
+//     markerColor: 'red',
+//     prefix: 'fa',
+//     icon: 'fa-spinner',
+//     iconColor: '#fff',
+//     iconRotate: 0,
+//     extraClasses: 'fa-spin',
+//     number: '',
+//     svg: false
+//   });
+
+//   L.marker([52.3555, 1.1743], {icon: redMarker}).addTo(mymap);
+
+$(document).ready(() => {
+    $('#countriesDataList').on('change', function() {
+        if ($('#countriesDataList').val() == '' ){
+            mymap.remove()
+        }
+    })
+})
 
 // Adding country Lists
 
@@ -63,10 +82,11 @@ var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/
                     L.geoJSON(countryPolygon, {
                         style: {color: "rgb(245, 49, 49)", fillColor: "rgba(0, 119, 73, 0.747)"} 
                     }).addTo(mymap);
+
+                    mapBounds = L.geoJSON(countryPolygon).getBounds();
+                    mymap.fitBounds(mapBounds, {padding: [50,50]})
                     
-                    if($('#countriesDataList').val() == '') {
-                        mymap.remove();
-                    }
+                   
                    }
             }
     
@@ -95,7 +115,7 @@ var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/
                 let countriesInfo = result['getCountryInfo'];
     
                 // Information Button
-                const informationButton = L.easyButton('fa-solid fa-info fa-lg', function(){
+                // const informationButton = L.easyButton('fa-solid fa-info fa-lg', function(){
                     $('#countryInfoModalLabel').html(countriesInfo[0]['countryName'] + ' -  ' + countriesInfo[0]['countryCode']);
                     $('#countryInfoModalBody').html(
                         `<p class="modalInfo capitalCity" id="modalP">
@@ -113,11 +133,18 @@ var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/
                         <a href="https://${wikipediaInfo[0]['wikipediaUrl']}" target="_blank">Learn More</a>
                         </p>
                     `)
-                    $('#countryInfoModal').modal('show');
+                //     $('#countryInfoModal').modal('show');
+                // }).addTo(mymap);
+ }}})});
+
+ // Information Buttton               
+ L.easyButton('fa-solid fa-info fa-lg', function(){
+    $('#countryInfoModal').modal('show');
                 }).addTo(mymap);
 
-               
-}}})});
+
+
+
 //Weather
 $('#countriesDataList').on('change', function(){
     $.ajax({
@@ -137,28 +164,30 @@ $('#countriesDataList').on('change', function(){
                let countriesInfo = result['getCountryInfo'];
                 
                // Weather Button
-               L.easyButton("fas fa-cloud-sun-rain fa-lg", function(){
+               
                 $('#weatherModalLabel').html(`Weather in ${countriesInfo[0]['capital']}`)
                 $('#weatherModalBody').html(`
-                <div class="weatherContainer>
+                <div class="weatherContainer">
                 <p class="weatherTitle">
                 <b>Current Condition</b>
                 </p>
                 <img src="http://openweathermap.org/img/w/${weather['weather'][0]['icon']}.png" height="66px"/>
                 <div class="weatherBar">
-                <p>Temp: ${weather['main']['temp']} | ${weather['weather'][0]['description']}
-                 | Feels like: ${weather['main']['feels_like']} | Wind: ${weather['wind']['speed']}
+                <p>Temp: ${weather['main']['temp']}°C | ${weather['weather'][0]['description']}
+                 | Feels like: ${weather['main']['feels_like']}°C | Wind: ${weather['wind']['speed']}mph
                  </p>
                 </div>
                 </div>
                 `)
-                
-                $('#weatherModal').modal('show');
-            }).addTo(mymap);
-
-             }}});
+                }}});
             })
-    
+
+// Weather Button
+L.easyButton("fas fa-cloud-sun-rain fa-lg", function(){
+    $('#weatherModal').modal('show');
+}).addTo(mymap);
+
+ 
     
     
     
@@ -179,20 +208,44 @@ $('#countriesDataList').on('change', function(){
                 if(result.status.name == "ok") {
             
                    
-                            let currency = result['getCurrency'];
-                            
-                        // Currency Button
-                        L.easyButton("fa-solid fa-coins fa-lg", 
-                        function(){
+                    let currency = result['getCurrency'];
+                    let countriesInfo = result['getCountryInfo'];
 
-
-                            $('#currencyModal').modal('show');
-
-                          }).addTo(mymap);
-                        
-            
-                        
-                        
-            
-                         }}});
+                    $('#currencyModalLabel').html(`Exchange rates - ${countriesInfo[0]['countryName']}`)
+                    $('#currencyModalBody').html(`
+                        <p class="modalInfo">
+                            $1 = ${currency} ${countriesInfo[0]['currencyCode']}
+                        </p>
+                        `) 
+                        }}});
                         })
+
+// Currency Button             
+ L.easyButton("fa-solid fa-coins fa-lg", function(){
+     $('#currencyModal').modal('show');
+}).addTo(mymap);
+
+
+
+// Country Coords
+$('#countriesDataList').on('change', function(){
+    $.ajax({
+        url: "php/getcountrymarkers.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            selectedCountry: $('#countriesDataList').val()
+        },
+
+        success: function(result){
+            console.log(result);
+            if(result.status.name == "ok") {
+
+            coords = result['geocoding'];
+            markers = result['getMarkers'];
+                
+               }
+        }
+
+    });
+})

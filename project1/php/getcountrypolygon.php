@@ -17,19 +17,6 @@ $data = json_decode($data_as_string, true);
     }
 }
 
-/*function geocoding($country){
-    $url = 'https://api.opencagedata.com/geocode/v1/json?q=' . $country .'&key=66f3d9d96a9442ada7018f438ee6a7b7';
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    $result=curl_exec($ch);
-    curl_close($ch);
-    $decode = json_decode($result, true);
-    return $decode['results']['annotations']['geometry'];
-}*/
-
-
 $output["status"]["code"] = "200";
 $output["status"]["name"] = "ok";
 $output["status"]["description"] = "success";
@@ -37,11 +24,6 @@ $output["status"]["description"] = "success";
 // Country Polygons
 $countrySelected = $_REQUEST['selectedCountry'];
 $output["countryPolygons"] = getCountryPolygons($countrySelected);
-
-
-//$country = $_REQUEST['country'];
-//$output['geocoding'] = geocoding($country);
-
 
 
 //Sending data back to javascript

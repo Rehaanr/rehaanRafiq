@@ -4,7 +4,7 @@ ini_set('display_errors', 'on');
 error_reporting(E_ALL);
 
 function getWeather($city) {
-    $url = 'http://api.openweathermap.org/data/2.5/weather?q='.$city.'&appid=e96c0a232f002e1ae6eba4777403e165';
+    $url = 'http://api.openweathermap.org/data/2.5/weather?q='.$city.'&appid=e96c0a232f002e1ae6eba4777403e165&units=metric';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
