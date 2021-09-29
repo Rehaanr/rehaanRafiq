@@ -225,9 +225,26 @@ L.easyButton("fas fa-cloud-sun-rain fa-lg", function(){
      $('#currencyModal').modal('show');
 }).addTo(mymap);
 
+// Icon
+const stadiumIcon = L.icon({
+    iconUrl: '/markers/Screenshot_2021-09-28_at_3.10.30_pm-removebg-preview.png',
+    iconSize: [35, 35]
+})
+
+// var marker = L.ExtraMarkers.icon({
+//     shape: 'circle',
+//     markerColor: 'green',
+//     prefix: 'fas',
+//     icon: 'fa-igloo',
+//     iconColor: '#fff',
+//     iconRotate: 0,
+//     extraClasses: '',
+//     number: '',
+//     svg: false
+// })
 
 
-// Country Coords
+// Country Markers
 $('#countriesDataList').on('change', function(){
     $.ajax({
         url: "php/getcountrymarkers.php",
@@ -241,11 +258,32 @@ $('#countriesDataList').on('change', function(){
             console.log(result);
             if(result.status.name == "ok") {
 
-            coords = result['geocoding'];
-            markers = result['getMarkers'];
+            let coords = result['geocoding'];
+            let stadium = result['stadiums']['features'];
+
+         
+                
+        let stadiumMarkers = L.markerClusterGroup();
+            
+            stadium.forEach(function(item) {
+                // var title = ` <b>Stadium Name:</b> ${item['properties']['name']}`;
+                
+                    let smarker = stadiumMarkers.addLayer(L.marker([
+                    item['geometry']['coordinates'][1],
+                    item['geometry']['coordinates'][0]]))
+                    smarker.bindPopup(`<b>Stadium Name:</b><br> ${item['properties']['name']}`).openPopup();
+                
+                
+               
+                
+                
+                })
+                
+                mymap.addLayer(stadiumMarkers);
                 
                }
         }
 
     });
 })
+

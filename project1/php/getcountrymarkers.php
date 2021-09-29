@@ -20,8 +20,8 @@ function geocoding($country){
 $country = $_REQUEST['selectedCountry'];
 $output['geocoding'] = geocoding($country);
 
-function getMarkers($lngMin, $lngMax, $latMax, $latMin){
-    $url = 'http://api.opentripmap.com/0.1/en/places/bbox?lon_min='.$lngMin.'&lat_min='.$latMin.'&lon_max='.$lngMax.'&lat_max='.$latMax.'&kinds=tourist_object&format=geojson&apikey=5ae2e3f221c38a28845f05b6383ace7f87ab0df54152e7a0f719ff8d';
+function getStadiums($lng, $lat){
+    $url = 'https://api.opentripmap.com/0.1/en/places/radius?radius=1000000&lon='.$lng.'&lat='.$lat.'&kinds=stadiums&format=geojson&apikey=5ae2e3f221c38a28845f05b6383ace7f87ab0df54152e7a0f719ff8d';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -34,12 +34,8 @@ function getMarkers($lngMin, $lngMax, $latMax, $latMin){
 $lat = geocoding($_REQUEST['selectedCountry'])['lat'];
 $lng = geocoding($_REQUEST['selectedCountry'])['lng'];
 
-$lngMin = $lng;
-$lngMax = $lng;
-$latMax = $lat;
-$latMin = $lat;
 
-$output['getMarkers'] = getMarkers($lngMin, $lngMax, $latMax, $latMin);
+$output['stadiums'] = getStadiums($lng, $lat);
 
 
 
