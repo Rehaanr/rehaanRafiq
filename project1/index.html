@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="./img/mapsFavicon.png"/>
     <script src="https://kit.fontawesome.com/d8d0857b51.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href= "./easyButton/easyButton.css">
@@ -40,6 +41,7 @@
     <!-- Map Container End -->
 
     <!-- Modals -->
+    <!-- Information Modal -->
     <div class="modal fade" id="countryInfoModal" tabindex="-1" aria-labelledby="countryInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -53,10 +55,10 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="weatherModal" tabindex="-1" aria-labelledby="weatherModalLabel" aria-hidden="true">
+    <!-- Weather Modal -->
+    <div  class="weather modal fade" id="weatherModal" tabindex="-1" aria-labelledby="weatherModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div style="background-image: url('./img/kisspng-inpaint-watermark-sky-5a6bbd67e46811.9334857315170102799356.png');" class="weather-modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="weatherModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -67,7 +69,7 @@
             </div>
         </div>
     </div>
-    
+    <!-- Currency -->
     <div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

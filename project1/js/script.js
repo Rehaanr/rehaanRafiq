@@ -1,36 +1,11 @@
-var mymap = L.map('mapid').setView([52.3555, 1.1743], 5);
+var mymap = L.map('mapid').setView([39.7837304, -100.445882], 2);
 
-
-var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	subdomains: 'abcd',
-	minZoom: 0,
+var Stadia_Outdoors = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
 	maxZoom: 20,
-	ext: 'png'
+	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }).addTo(mymap);
 
-// var redMarker = L.ExtraMarkers.icon({
-    
-//     iconSize: [34, 34],
-//     markerColor: 'red',
-//     prefix: 'fa',
-//     icon: 'fa-spinner',
-//     iconColor: '#fff',
-//     iconRotate: 0,
-//     extraClasses: 'fa-spin',
-//     number: '',
-//     svg: false
-//   });
 
-//   L.marker([52.3555, 1.1743], {icon: redMarker}).addTo(mymap);
-
-$(document).ready(() => {
-    $('#countriesDataList').on('change', function() {
-        if ($('#countriesDataList').val() == '' ){
-            mymap.remove()
-        }
-    })
-})
 
 // Adding country Lists
 
@@ -58,7 +33,8 @@ $(document).ready(() => {
         }
     }
     });
-
+    
+    let polygon;
    
     // Country Polygons
     $('#countriesDataList').on('change', function(){
@@ -79,7 +55,7 @@ $(document).ready(() => {
 
                     
 
-                    L.geoJSON(countryPolygon, {
+                  let polygon =  L.geoJSON(countryPolygon, {
                         style: {color: "rgb(245, 49, 49)", fillColor: "rgba(0, 119, 73, 0.747)"} 
                     }).addTo(mymap);
 
@@ -92,6 +68,8 @@ $(document).ready(() => {
     
         });
     })
+
+   
     
 // Buttons //
 
@@ -231,18 +209,8 @@ const stadiumIcon = L.icon({
     iconSize: [35, 35]
 })
 
-// var marker = L.ExtraMarkers.icon({
-//     shape: 'circle',
-//     markerColor: 'green',
-//     prefix: 'fas',
-//     icon: 'fa-igloo',
-//     iconColor: '#fff',
-//     iconRotate: 0,
-//     extraClasses: '',
-//     number: '',
-//     svg: false
-// })
 
+let stadiumMarkers;
 
 // Country Markers
 $('#countriesDataList').on('change', function(){
@@ -261,17 +229,19 @@ $('#countriesDataList').on('change', function(){
             let coords = result['geocoding'];
             let stadium = result['stadiums']['features'];
 
-         
+            let stadiumMarkers = L.markerClusterGroup();
                 
-        let stadiumMarkers = L.markerClusterGroup();
+        
             
             stadium.forEach(function(item) {
                 // var title = ` <b>Stadium Name:</b> ${item['properties']['name']}`;
                 
                     let smarker = stadiumMarkers.addLayer(L.marker([
                     item['geometry']['coordinates'][1],
-                    item['geometry']['coordinates'][0]]))
-                    smarker.bindPopup(`<b>Stadium Name:</b><br> ${item['properties']['name']}`).openPopup();
+                    item['geometry']['coordinates'][0]]).bindPopup(`<b>Stadium Name:</b><br> ${item['properties']['name']}`)
+                    
+                    )
+                    
                 
                 
                
@@ -281,9 +251,46 @@ $('#countriesDataList').on('change', function(){
                 
                 mymap.addLayer(stadiumMarkers);
                 
+                
                }
         }
 
     });
 })
+
+//Get user location
+$(document).ready(() => {
+    if('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition((position) =>{
+            $.ajax({
+                url: "php/getlocation.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                },
+        
+                success: function(result){
+                    console.log(result);
+                    if(result.status.name == "ok") {
+        
+                        countryCode = result['countryCode'];
+                        
+                        mymap.setView([position.coords.latitude, position.coords.longitude], 5);
+                        $('#countriesDataList').val(countryCode['countryCode']).change();
+        }}});})}})
+
+   
+// Removing polygons and markers
+        $('#countriesDataList').on('change', function(){
+            if(polygon) {
+                polygon.remove();
+            
+            }
+        })
+
+
+    
+    
 

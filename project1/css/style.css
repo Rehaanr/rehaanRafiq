@@ -31,7 +31,7 @@ body {
     z-index: 1000;
     display: flex;
     flex-direction: row;
-    background-color: rgb(0, 28, 119);
+    background-color: rgb(90,225,168);
     border-radius: 6px;
     padding-left: 0.8rem;
 }
@@ -39,13 +39,13 @@ body {
 
 select {
     
-    background-color: black;
-    color: #fff;
+    background-color: white;
+    color: black;
     padding: 10px;
     padding-right: 10px;
     border-radius: 4px;
     right: 30px;
-    border-left: 2px solid rgb(245, 49, 49);
+    border-left: rgb(207, 0, 0);
     
 }
 
@@ -69,10 +69,10 @@ select {
 }
 
 .leaflet-bar button{
-    background-color: rgb(0, 28, 119);
-    color: white;
+    background-color: rgb(90,225,168);
+    color: black;
     cursor: pointer;
-    border: solid 1px rgb(245, 49, 49);
+    /* border: solid 1px rgb(245, 49, 49); */
 }
 
 .modalInfo{
@@ -109,7 +109,7 @@ select {
 }
 
 .weatherBar{
-    background-color: rgb(0, 48, 182);
+    
     display: flex;
     flex-direction: row;
     
@@ -120,6 +120,13 @@ select {
 .weatherContainer img, .weatherTitle {
     position: relative;
     left: -10px;
+}
+
+.weather-modal-content {
+    background-image: url('img/kisspng-inpaint-watermark-sky-5a6bbd67e46811.9334857315170102799356.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
