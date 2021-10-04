@@ -45,12 +45,12 @@ select {
     padding-right: 10px;
     border-radius: 4px;
     right: 30px;
-    border-left: rgb(207, 0, 0);
+    border-left: 1px solid black;
     
 }
 
 .modal-header{
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid black;
     align-content: center;
     text-align: center;
     
@@ -58,8 +58,9 @@ select {
 }
 
 .modal-content {
-    background-color: rgba(0, 28, 119, 0.781);
-    color: #fff;
+   background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(150,239,193,1) 0%, rgba(177,243,209,1) 0%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 100%, rgba(37,221,127,1) 100%);
+    color: black;
     border: 1px solid black;
 }
 
@@ -96,42 +97,76 @@ select {
     font-size: 25px;
 }
 
-.weatherContainer img {
-    align-content: center;
+/*.weatherContainer img {*/
+/*    align-content: center;*/
+/*}*/
+
+/*.weatherContainer {*/
+/*    margin-left: 15px;*/
+/*    align-content: center;*/
+/*    text-align: center;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.weatherBar{*/
+/*    background-color: rgb(0, 48, 182);*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+    
+/*    border-left: solid 1px white;*/
+/*    border-top: none 0px white;*/
+/*}*/
+
+/*.weatherContainer img, .weatherTitle {*/
+/*    position: relative;*/
+/*    left: -10px;*/
+/*}*/
+
+#imagesModalBody{
+    max-height: 400px;
+    max-width: 500px;
 }
 
-.weatherContainer {
-    margin-left: 15px;
-    align-content: center;
-    text-align: center;
+#newsInfoBoxBody {
+    min-height: 400px;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+
+.modal-dialog{
+    margin: 0 auto;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.weatherBar{
-    
+#weatherModalBody{
+     margin: 0 auto;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     
-    border-left: solid 1px white;
-    border-top: none 0px white;
 }
 
-.weatherContainer img, .weatherTitle {
-    position: relative;
-    left: -10px;
+#weatherModalLabel {
+    text-align: center;
 }
 
-.weather-modal-content {
-    background-image: url('img/kisspng-inpaint-watermark-sky-5a6bbd67e46811.9334857315170102799356.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.weatherModal{
+    background: url('../img/Sky.jpeg');
+    color: white;
 }
-
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    .ppp {
+    .ppp a {
         display: none;
+        
+    }
+    
+    .ppp {
+        padding-left: 0;
     }
     
 }

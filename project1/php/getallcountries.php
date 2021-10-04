@@ -13,8 +13,9 @@ array_push($countries,
 (object)['code' => $data['features'][$country]['properties']['iso_a2'], 'name' => $data['features'][$country]['properties']['name']]);
 }
 
-
-
+usort($countries, function($a, $b){
+    return strcmp($a->name, $b->name);
+});
 
 
 
