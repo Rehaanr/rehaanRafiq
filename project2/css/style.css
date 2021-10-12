@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.navbar {
+    border-radius: 10px;
+    border-bottom: 1px solid black;
+  
+}
+
+.nav{
+
+    margin: 0px auto;
+    
+}
+
+#searchInput {
+    width: 230%;
+}
+
+#location, #department {
+    width: 100%;
+}
+
+#departmentsList, #personnelList {
+    list-style:none;
+    margin:0;
+    padding:0;
+  
+    
+}
+
+#departmentsList li, #personnelList li {
+    padding-left:15px;
+    padding-right:15px;
+}
+
+.personIcon {
+    display: block;
+    flex-direction: row;
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    background-color: #0C6DFD;
+    color: white;
+    margin-right: 16px;
+    text-align: center;
+    line-height: 50px;
+    float: left;
+    
+}
+
+#departmentsList li a, #personnelList li a {
+    display:block;
+    padding-top:15px;
+    padding-bottom:18px;
+    border-bottom:1px solid #FFF;
+    color:#000;
+    font-size:1.1em;
+    line-height:50px;
+    text-decoration:none;
+    min-height:80px;
+
+}
+
+#personnelList li a{
+    border-bottom: 1px solid rgb(201, 201, 201);
+}
+
+
+.sidecol {
+    margin-top: -8px;
+    height:calc(100vh - 85px);
+    background:#EFEFEF;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+
+
+.maincol {
+    margin-top: 0px;
+    height: calc(100vh - 85px);
+    overflow-y: scroll;
+}
+    
+.personName {
+    left: 200;
+    line-height: 22px;
+    float: left;
+}
+
+.smallText {
+    font-size: 0.8rem;
+    color:rgb(146, 146, 146);
+    
+}
