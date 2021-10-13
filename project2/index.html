@@ -19,10 +19,10 @@
             <input class="form-control me-2" type="search" placeholder="Search by name..." aria-label="Search" id="searchInput"/>
             
             <select class="form-control me-2 text-center" name="location" id="location">
-              <option value="" selected="selected">All Locations</option>
+              <option value="all" selected="selected">All Locations</option>
             </select>
             <select class="form-control me-2" name="department" id="department">
-              <option selected="selected" value="">All Departments</option>
+              <option selected="selected" value="all">All Departments</option>
             </select>
             
           </div>
@@ -48,7 +48,85 @@
           </div>
         </div>
     </section>
-       
+
+<!-- Person Details Modal -->
+<div class="modal fade" id="personnelModal" tabindex="-1" aria-labelledby="personnelModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="personnelName"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div id="personDetails">
+
+            </div>
+            <div id="editContactForm">
+          <form>
+            <div class="mb-3 row">
+              <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control personellInput" id="firstName">
+              </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control personellInput" id="lastName">
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="email" class="col-sm-4 col-form-label">Email Address</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control personellInput" id="email">
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="departmentInput" class="col-sm-4 col-form-label">Department</label>
+                <div class="col-sm-8">
+                  <select class="form-control personellInput" id="departmentInput">
+
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="locationInput" class="col-sm-4 col-form-label">Location</label>
+                <div class="col-sm-8">
+                  <select class="form-control personellInput" id="locationInput">
+                      
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="jobTitle" class="col-sm-4 col-form-label">Job Title</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control personellInput" id="jobTitle">
+                </div>
+              </div>
+          </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="editFormBtn">Edit</button>
+          <button type="button" class="btn btn-primary" id="saveFormBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ <!-- Toast Popup -->
+ 
+ <div class="toast-container position-absolute bottom-0" >
+    <div id="liveToast" class="toast align-items-center text-white bg-primary border-0 hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body" id="responseMessage">
+            
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+  </div>
         
     
 </body>
