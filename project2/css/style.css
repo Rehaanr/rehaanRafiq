@@ -124,8 +124,14 @@ nav{
 #editContactForm, #saveFormBtn{
     display: none;
 }
-.toast-container {
+.toast-container,.toast-body,#liveToast,.d-flex {
     width: 100%;
     border-radius: 35;
     height: 15vh;
+}
+
+#responseMessage{
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 400;
 }

@@ -1,7 +1,8 @@
 <?php
 
 	// example use from browser
-	// http://localhost/companydirectory/libs/php/getPersonnel.php?id=1
+	// use insertDepartment.php first to create new dummy record and then specify it's id in the command below
+	// http://localhost/companydirectory/libs/php/deleteDepartmentByID.php?id= <id>
 
 	// remove next two lines for production
 	
@@ -32,43 +33,9 @@
 
 	}	
 
-	// first query
+	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'SELECT p.lastName, p.firstName, p.jobTitle, p.departmentID, p.id, p.email, d.name as department, l.name as location
-				 FROM personnel p
-				 LEFT JOIN department d ON (d.id = p.departmentID) 
-				 LEFT JOIN location l ON (l.id = d.locationID)
-				 WHERE p.id ="'.$_REQUEST['id']. '"ORDER BY p.lastName, p.firstName, d.name, l.name';
-    
-    
-	$result = $conn->query($query);
-	
-	if (!$result) {
-
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
-
-		mysqli_close($conn);
-
-		echo json_encode($output); 
-
-		exit;
-
-	}
-   
-   	$personnel = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($personnel, $row);
-
-	}
-
-	// second query
-
-	$query = 'SELECT id, name from department ORDER BY id';
+	$query = 'DELETE FROM personnel WHERE id = ' . $_REQUEST['id'];
 
 	$result = $conn->query($query);
 	
@@ -84,14 +51,6 @@
 		echo json_encode($output); 
 
 		exit;
-
-	}
-   
-   	$department = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($department, $row);
 
 	}
 
@@ -99,8 +58,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data']['personnel'] = $personnel;
-	$output['data']['department'] = $department;
+	$output['data'] = [];
 	
 	mysqli_close($conn);
 

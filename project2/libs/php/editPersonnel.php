@@ -35,8 +35,9 @@
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
 	$query = 'UPDATE personnel SET  jobTitle = "' . $_REQUEST['jobTitle'] . '", email = "'. $_REQUEST['email'] . '", departmentID = "'. $_REQUEST['departmentID'] .'" WHERE id = ' . $_REQUEST['id'];
-
+	
 	$result = $conn->query($query);
+
 	
 	if (!$result) {
 
@@ -57,7 +58,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = [];
+	$output['data'] = $conn->error;
 	
 	mysqli_close($conn);
 

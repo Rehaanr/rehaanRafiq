@@ -10,8 +10,8 @@ $.ajax({
             
             result.data.forEach(department => {
                 element.append(`<option value="${department.name}">${department.name}</option>`)
-                $('#departmentInput').append(`<option value="${department.ID}">${department.name}</option>`)
-
+                $('#departmentInput').append(`<option value="${department.id}">${department.name}</option>`)
+                $('#departmentInputNew').append(`<option value="${department.id}">${department.name}</option>`)
             })}})}
 
 // Location select 
@@ -22,11 +22,11 @@ const getLocation = (element) => {
         dataType: "json",
 
         success: function(result){
-            // console.log(result)
+            console.log(result)
 
             result.data.forEach(location => {
                 element.append(`<option value="${location.name}">${location.name}</option>`);
-                $('#locationInput').append(`<option>${location.name}</option>`)
+                $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
             })
         }
     })
@@ -39,10 +39,10 @@ $(document).ready(function(){
             dataType: "json",
         
             success: function(result){
-                // console.log(result)
+                console.log(result)
                 
-                result.data.forEach(department => {
-                    $('#departmentsList').append(`<li><a href="#">${department.name}</a></li>`);
+        result.data.forEach(department => {
+        $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
                     
     
     
@@ -66,7 +66,7 @@ $(document).ready(function(){
                     <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
                     <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
                     <div class="personName">${person.firstName} ${person.lastName}<br>
-                    <p class="smallText">${person.department}, ${person.location}<br></p>
+                    <p class="smallText">${person.department}, ${person.location}</p>
                     </div></a></li>`)
                 })
     
@@ -100,7 +100,7 @@ $('#searchInput').on('keyup', function(){
                     <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
                     <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
                     <div class="personName">${person.firstName} ${person.lastName}<br>
-                    <p class="smallText">${person.department}, ${person.location}<br></p>
+                    <p class="smallText">${person.department}, ${person.location}</p>
                     </div></a></li>`)
                     }})
                     
@@ -136,7 +136,7 @@ $('#location').on('change', function(){
             <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
             <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
             <div class="personName">${person.firstName} ${person.lastName}<br>
-            <p class="smallText">${person.department}, ${person.location}<br></p>
+            <p class="smallText">${person.department}, ${person.location}</p>
             </div></a></li>`)
             }})
             
@@ -173,7 +173,7 @@ $('#department').on('change', function(){
             <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
             <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
             <div class="personName">${person.firstName} ${person.lastName}<br>
-            <p class="smallText">${person.department}, ${person.location}<br></p>
+            <p class="smallText">${person.department}, ${person.location}</p>
             </div></a></li>`)
             }
         })
@@ -206,7 +206,7 @@ $('#department, #location').on('change', function(){
             <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
             <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
             <div class="personName">${person.firstName} ${person.lastName}<br>
-            <p class="smallText">${person.department}, ${person.location}<br></p>
+            <p class="smallText">${person.department}, ${person.location}</p>
             </div></a></li>`)
             }
         })
@@ -251,9 +251,11 @@ let getPersonDetails = (personId) => {
             $('#lastName').val(person.lastName);
             $('#email').val(person.email);
             $('#jobTitle').val(person.jobTitle);
-            $('#departmentInput').append(`<option selected="selected" value="${person.department.ID}">${person.department}</option>`)
+            $('#departmentInput').append(`<option selected="selected" value="${person.departmentID}">${person.department}</option>`)
             $('#locationInput').append(`<option selected="selected">${person.location}</option>`)
-            $('#saveFormBtn').attr('onclick', `updateContact(${person.id})`);
+            $('#saveFormBtn').attr('onClick', `updateContact(${person.id})`);
+            $('#deleteModalName').html(person.firstName + " " + person.lastName);
+            $('#deletePersonBtn').attr('onClick', `deleteContact(${person.departmentID})`);
     }})
 
 }
@@ -275,11 +277,141 @@ let updateContact = (personId) => {
             $('#personnelModal').modal('hide');
             $('#responseMessage').html('Successfully Saved')
             $('.toast').toast('show');
+
+            $.ajax({
+                url: "libs/php/getAll.php",
+                type: "POST",
+                dataType: "json",
             
+                success: function(result){
+                    // console.log(result)
+                    $('#personnelList').html(``);
+                    $('#department').html(`<option value="">All Departments</option>`)
+                    $('#location').html(`<option value="">All Locations</option>`)
+                    
+                    result.data.forEach((person) => {
+                        // console.log(person);
+                        $('#personnelList').append(`
+                        <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
+                        <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
+                        <div class="personName">${person.firstName} ${person.lastName}<br>
+                        <p class="smallText">${person.department}, ${person.location}</p>
+                        </div></a></li>`)
+        })}})}})}
+ // Delete contact   
+
+let deleteContact = (id) => {
+    $.ajax({
+        url: "libs/php/deletePersonnelById.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id
+        },
+        success: function(result){
+            console.log(result)
+            
+            $('#responseMessage').html('Successfully Deleted')
+            $('.toast').toast('show');
+            
+            $.ajax({
+                url: "libs/php/getAll.php",
+                type: "POST",
+                dataType: "json",
+            
+                success: function(result){
+                    // console.log(result)
+                    $('#personnelList').html(``);
+                    $('#department').html(`<option value="">All Departments</option>`)
+                    $('#location').html(`<option value="">All Locations</option>`)
+                    
+                    result.data.forEach((person) => {
+                        // console.log(person);
+                        $('#personnelList').append(`
+                        <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
+                        <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
+                        <div class="personName">${person.firstName} ${person.lastName}<br>
+                        <p class="smallText">${person.department}, ${person.location}</p>
+                        </div></a></li>`)
+                    }) }})
+        }})}
+
+// Add new contact
+    let addNewContact = () => {
+        $.ajax({
+            url: "libs/php/insertPersonnel.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                firstName: $('#firstNameInputNew').val(),
+                lastName: $('#lastNameInputNew').val(),
+                jobTitle: $('#jobTitleInputNew').val(),
+                email:  $('#emailInputNew').val(),
+                departmentId: $('#departmentInputNew').val()
+            },
+    
+            success: function(result){
+               
+                $('#responseMessage').html('Successfully Added')
+                $('.toast').toast('show');
+
+                $.ajax({
+                    url: "libs/php/getAll.php",
+                    type: "POST",
+                    dataType: "json",
+                
+                    success: function(result){
+                        // console.log(result)
+                        $('#personnelList').html(``);
+                        $('#department').html(`<option value="">All Departments</option>`)
+                        $('#location').html(`<option value="">All Locations</option>`)
+                        
+                        result.data.forEach((person) => {
+                            // console.log(person);
+                            $('#personnelList').append(`
+                            <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
+                            <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
+                            <div class="personName">${person.firstName} ${person.lastName}<br>
+                            <p class="smallText">${person.department}, ${person.location}</p>
+                            </div></a></li>`)
+                        }) }})
+                
+            }
+        })
+    }
+ 
+function getDepartmentPersonnel(departmentID){
+    $.ajax({
+        url: "libs/php/getPersonnel.php",
+        type: "POST",
+        dataType: "json",
+        data: {id: departmentID},
+
+        success: function(result){
+            console.log(result)
+
+            // console.log(personId_preventCopyPaste)
+             let personnel = result['data']['personnel'];
+             let department = result['data']['department'];
+             
+             
+            let findPerson;
+            findPerson = personnel.filter(person => person.departmentID == departmentID)
+            console.log(findPerson);
+            findPerson.forEach((person) => {
+                $('#departmentContacts').append(`
+                <li><a href="#">
+                <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
+                <div class="personName">${person.firstName} ${person.lastName}<br>
+                <p class="smallText">${person.department}, ${person.location}</p>
+
+                </div></a></li>`)
+            })
+             
+           
+    }})
 
 }
-
-    })}
 
 
 
@@ -301,5 +433,8 @@ $(document).ready(function(){
     $('#editFormBtn').toggle()
     $('#saveFormBtn').toggle()
 })
+
+    $('#personnelList').html(``);
+
    });
     
