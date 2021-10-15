@@ -98,14 +98,6 @@
                   </select>
                 </div>
               </div>
-              <!-- <div class="mb-3 row">
-                <label for="locationInput" class="col-sm-4 col-form-label"><b>Location</b></label>
-                <div class="col-sm-8">
-                  <select class="form-control personellInput" id="locationInput">
-                      
-                  </select>
-                </div>
-              </div> -->
               <div class="mb-3 row">
                 <label for="jobTitle" class="col-sm-4 col-form-label"><b>Job Title</b></label>
                 <div class="col-sm-8">
@@ -161,23 +153,12 @@
       
     </div>
   </div>
-  <!-- <div class="mb-3 row">
-    <label for="locationInput" class="col-sm-4 col-form-label">Location</label>
-    <div class="col-sm-8">
-        <select class="form-control personellInput"  id="locationInputNew" >
-            
-        </select>
-      
-    </div>
-  </div> -->
   <div class="mb-3 row">
     <label for="jobTitleInput" class="col-sm-4 col-form-label">Job Title</label>
     <div class="col-sm-8">
       <input type="text" class="form-control personellInput" id="jobTitleInputNew" value="" required>
     </div>
   </div>
-
-
 </div>
 
 <div class="modal-footer">
@@ -204,34 +185,17 @@
               <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteModal" >Delete Department</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteModal">Delete Department</a></li>
             </ul>
         </div>
         </div>
   
         <div class="modal-body">
-  
-  
-          <div class="mb-3 row">
-            <div class="col-sm-12">
-              
-            </div>
-          </div>
-          <ul id="departmentContacts">
-            
-          </ul>
-  
-  
+        <ul id="departmentContacts">
+            </ul>
         </div>
         
-        <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#confirmModal" id="confirmModal">Save</button>
-        </div> 
-  
-      </div>
-    </div>
-  </div>
-
+      
 <!-- New Department Modal -->
 <div class="modal fade" id="createDepartmentModal" tabindex="-1"  aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -257,15 +221,11 @@
               <select class="form-control contactInput" id="newDepartmentLocation" ></select>
             </div>
           </div>
-  
-  
-        </div>
-        
+    </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-block" id="createDepartmentBtn" data-bs-dismiss="modal">Save</button> 
         </div>
-  
-      </div>
+    </div>
     </div>
   </div>
 
@@ -329,7 +289,7 @@
 
 
 <!-- Delete Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
