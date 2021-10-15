@@ -255,7 +255,7 @@ let getPersonDetails = (personId) => {
             $('#locationInput').append(`<option selected="selected">${person.location}</option>`)
             $('#saveFormBtn').attr('onClick', `updateContact(${person.id})`);
             $('#deleteModalName').html(person.firstName + " " + person.lastName);
-            $('#deletePersonBtn').attr('onClick', `deleteContact(${person.departmentID})`);
+            $('#deletePersonBtn').attr('onClick', `deleteContact(${person.id})`);
     }})
 
 }
@@ -267,6 +267,8 @@ let updateContact = (personId) => {
         type: "POST",
         dataType: "json",
         data: {id: personId,
+        firstName: $('#firstName').val(),
+        lastName: $('#lastName').val(),
         jobTitle: $('#jobTitle').val(),
         email: $('#email').val(),
         departmentID: $('#departmentInput').val(),
@@ -382,10 +384,10 @@ let deleteContact = (id) => {
  
 function getDepartmentPersonnel(departmentID){
     $.ajax({
-        url: "libs/php/getPersonnel.php",
+        url: "libs/php/getDepartmentPersonnel.php",
         type: "POST",
         dataType: "json",
-        data: {id: departmentID},
+        data: {departmentId: departmentID},
 
         success: function(result){
             console.log(result)
@@ -394,17 +396,19 @@ function getDepartmentPersonnel(departmentID){
              let personnel = result['data']['personnel'];
              let department = result['data']['department'];
              
+           
+           
              
             let findPerson;
             findPerson = personnel.filter(person => person.departmentID == departmentID)
             console.log(findPerson);
             findPerson.forEach((person) => {
+                $('#singleDepartmentName').html(person.department);
                 $('#departmentContacts').append(`
                 <li><a href="#">
                 <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
                 <div class="personName">${person.firstName} ${person.lastName}<br>
                 <p class="smallText">${person.department}, ${person.location}</p>
-
                 </div></a></li>`)
             })
              
