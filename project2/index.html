@@ -129,19 +129,19 @@
 <div class="mb-3 row">
     <label for="firstNameInput" class="col-sm-4 col-form-label">First Name</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control personellInput" id="firstNameInputNew" value="" required>
+      <input type="text" class="form-control personellInput" id="firstNameInputNew" required>
     </div>
   </div>
   <div class="mb-3 row">
     <label for="lastNameInput" class="col-sm-4 col-form-label">Last Name</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control personellInput" id="lastNameInputNew" value="" required>
+      <input type="text" class="form-control personellInput" id="lastNameInputNew" required>
     </div>
   </div>
   <div class="mb-3 row">
     <label for="emailInput" class="col-sm-4 col-form-label">Email Address</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control personellInput" id="emailInputNew" value="" required>
+      <input type="text" class="form-control personellInput" id="emailInputNew" required>
     </div>
   </div>
   <div class="mb-3 row">
@@ -156,7 +156,7 @@
   <div class="mb-3 row">
     <label for="jobTitleInput" class="col-sm-4 col-form-label">Job Title</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control personellInput" id="jobTitleInputNew" value="" required>
+      <input type="text" class="form-control personellInput" id="jobTitleInputNew" required>
     </div>
   </div>
 </div>
@@ -168,7 +168,7 @@
 </div>
 </div>
 </div>
-  </section>
+  
 
 <!-- Edit department Modal -->
  <div class="modal fade" id="editDepartmentModal" tabindex="-1"  aria-hidden="true">
@@ -185,7 +185,7 @@
               <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteModal">Delete Department</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteDepartmentModal">Delete Department</a></li>
             </ul>
         </div>
         </div>
@@ -193,6 +193,9 @@
         <div class="modal-body">
         <ul id="departmentContacts">
             </ul>
+        </div>
+        </div>
+        </div>
         </div>
         
       
@@ -288,7 +291,7 @@
     </div>
 
 
-<!-- Delete Modal -->
+<!-- Delete Modal Person -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -310,6 +313,29 @@
         </div>
         </div>
         </div>
+
+<!-- Delete Department Modal -->
+<div class="modal fade" id="deleteDepartmentModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Are You Sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="deleteModalBody">
+        <p>
+            Are you sure you want to delete <span id="deleteDepartmentName"></span> from Company Directory?
+        </p>
+        </div>
+        <div class="modal-footer" id="deleteModalFooter">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="deleteDepartmentBtn"  class="btn btn-primary" data-bs-dismiss="modal" >Delete</button>
+              </div>
+        </div>
+    </div>
+    </div>
+    </div>
 
  <!-- Toast Popup -->
  

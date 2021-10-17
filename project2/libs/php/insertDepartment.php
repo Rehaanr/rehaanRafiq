@@ -35,18 +35,16 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$query = $conn->prepare('INSERT INTO department (name, locationID) VALUES(?,?)');
+	$query = 'INSERT INTO department (name, locationID) VALUES("' . $_REQUEST['name'] . '",' . $_REQUEST["locationID"] . ')';
 
-	$query->bind_param("si", $_REQUEST['name'], $_REQUEST['locationID']);
-
-	$query->execute();
+	$result = $conn->query($query);
 	
 	if (false === $query) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
+		$output['data'] = $conn->error;
 
 		mysqli_close($conn);
 

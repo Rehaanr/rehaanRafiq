@@ -1,6 +1,6 @@
 // Departments select
-const getDepartments = (element) => {
-$.ajax({
+$(document).ready(function(){
+    $.ajax({
         url: "libs/php/getAllDepartments.php",
         type: "POST",
         dataType: "json",
@@ -9,13 +9,16 @@ $.ajax({
             console.log(result)
             
             result.data.forEach(department => {
-                element.append(`<option value="${department.name}">${department.name}</option>`)
+                $('#department').append(`<option value="${department.name}">${department.name}</option>`)
                 $('#departmentInput').append(`<option value="${department.id}">${department.name}</option>`)
                 $('#departmentInputNew').append(`<option value="${department.id}">${department.name}</option>`)
-            })}})}
+                $('#newDepartmentLocation').append(`<option value="${department.id}">${department.name}</option>`)
+            })}})
+})
+
 
 // Location select 
-const getLocation = (element) => {
+$(document).ready(function(){
     $.ajax({
         url: "libs/php/getAllLocations.php",
         type: "POST",
@@ -25,12 +28,14 @@ const getLocation = (element) => {
             console.log(result)
 
             result.data.forEach(location => {
-                element.append(`<option value="${location.name}">${location.name}</option>`);
+                $('#location').append(`<option value="${location.name}">${location.name}</option>`);
                 $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
             })
         }
     })
-}
+})
+  
+
 // Departments List
 $(document).ready(function(){
     $.ajax({
@@ -288,8 +293,7 @@ let updateContact = (personId) => {
                 success: function(result){
                     // console.log(result)
                     $('#personnelList').html(``);
-                    $('#department').html(`<option value="">All Departments</option>`)
-                    $('#location').html(`<option value="">All Locations</option>`)
+                    
                     
                     result.data.forEach((person) => {
                         // console.log(person);
@@ -324,8 +328,7 @@ let deleteContact = (id) => {
                 success: function(result){
                     // console.log(result)
                     $('#personnelList').html(``);
-                    $('#department').html(`<option value="">All Departments</option>`)
-                    $('#location').html(`<option value="">All Locations</option>`)
+                    
                     
                     result.data.forEach((person) => {
                         // console.log(person);
@@ -365,8 +368,7 @@ let deleteContact = (id) => {
                     success: function(result){
                         // console.log(result)
                         $('#personnelList').html(``);
-                        $('#department').html(`<option value="">All Departments</option>`)
-                        $('#location').html(`<option value="">All Locations</option>`)
+                        
                         
                         result.data.forEach((person) => {
                             // console.log(person);
@@ -395,34 +397,97 @@ function getDepartmentPersonnel(departmentID){
             // console.log(personId_preventCopyPaste)
              let personnel = result['data']['personnel'];
              let department = result['data']['department'];
-             
-           
-           
-             
-            let findPerson;
-            findPerson = personnel.filter(person => person.departmentID == departmentID)
-            console.log(findPerson);
-            findPerson.forEach((person) => {
-                $('#singleDepartmentName').html(person.department);
-                $('#departmentContacts').append(`
-                <li><a href="#">
-                <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
-                <div class="personName">${person.firstName} ${person.lastName}<br>
-                <p class="smallText">${person.department}, ${person.location}</p>
-                </div></a></li>`)
-            })
-             
-           
-    }})
 
-}
+             $('#singleDepartmentName').html(personnel[0].department);
+             console.log(personnel[0].department);
+             console.log(personnel[0].departmentID);
+             
+            $('#deleteDepartmentBtn').attr('onClick',`deleteDepartment(${personnel[0].departmentID})`);
+            $('#deleteDepartmentName').html(personnel[0].department);
+             $('#departmentContacts').html("");
+            
+             for(const iterator of personnel) {
+                 console.log(iterator);
+                 $('#departmentContacts').append(`
+                 <li><a href="#">
+                 <div class="personIcon">${iterator.firstName[0]}${iterator.lastName[0]}</div>
+                 <div class="personName">${iterator.firstName} ${iterator.lastName}<br>
+                 <p class="smallText">${iterator.department}, ${iterator.location}</p>
+                </div></a></li>`)
+                 
+             }}})}
+
+// Delete Department
+function deleteDepartment(departmentID){
+    $.ajax({
+        url: "libs/php/deleteDepartmentByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {departmentID: departmentID},
+
+        success: function(result){
+            console.log(result)
+
+        $('#responseMessage').html('Department Successfully Deleted')
+        $('.toast').toast('show')
+
+        
+        
+
+             
+            $.ajax({
+                url: "libs/php/getAllDepartments.php",
+                type: "POST",
+                dataType: "json",
+            
+                success: function(result){
+                    console.log(result)
+                    
+                    result.data.forEach(department => {
+                        $('#department').append(`<option value="${department.name}">${department.name}</option>`)
+                        $('#departmentInput').append(`<option value="${department.id}">${department.name}</option>`)
+                        $('#departmentInputNew').append(`<option value="${department.id}">${department.name}</option>`)
+                    })}})
+
+            $.ajax({
+                url: "libs/php/getAllDepartments.php",
+                type: "POST",
+                dataType: "json",
+                    
+                        success: function(result){
+                        console.log(result)
+                            
+                    result.data.forEach(department => {
+                    $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
+             })}})
+             $.ajax({
+                url: "libs/php/getAll.php",
+                type: "POST",
+                dataType: "json",
+            
+                success: function(result){
+                    // console.log(result)
+    
+                    
+                    result.data.forEach((person) => {
+                        // console.log(person);
+                        $('#personnelList').append(`
+                        <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
+                        <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
+                        <div class="personName">${person.firstName} ${person.lastName}<br>
+                        <p class="smallText">${person.department}, ${person.location}</p>
+                        </div></a></li>`)
+                    })
+        
+        
+                    }})
+          }})}
 
 
 
 // Function Calls
 $(document).ready(function(){
-   getDepartments($('#department'));
-   getLocation($('#location'));
+   
 
    $('#editFormBtn').click(() => {
        $('#editContactForm').toggle();
@@ -439,6 +504,11 @@ $(document).ready(function(){
 })
 
     $('#personnelList').html(``);
+
+   $('.addPerson').each(function(){
+       this.reportValidity();
+
+   })
 
    });
     
