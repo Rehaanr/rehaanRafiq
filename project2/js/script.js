@@ -1,44 +1,7 @@
 // Departments select
-$(document).ready(function(){
-    $.ajax({
-        url: "libs/php/getAllDepartments.php",
-        type: "POST",
-        dataType: "json",
-    
-        success: function(result){
-            console.log(result)
-            
-            result.data.forEach(department => {
-                $('#department').append(`<option value="${department.name}">${department.name}</option>`)
-                $('#departmentInput').append(`<option value="${department.id}">${department.name}</option>`)
-                $('#departmentInputNew').append(`<option value="${department.id}">${department.name}</option>`)
-                $('#newDepartmentLocation').append(`<option value="${department.id}">${department.name}</option>`)
-            })}})
-})
-
-
-// Location select 
-$(document).ready(function(){
-    $.ajax({
-        url: "libs/php/getAllLocations.php",
-        type: "POST",
-        dataType: "json",
-
-        success: function(result){
-            console.log(result)
-
-            result.data.forEach(location => {
-                $('#location').append(`<option value="${location.name}">${location.name}</option>`);
-                $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
-            })
-        }
-    })
-})
-  
-
-// Departments List
-$(document).ready(function(){
-    $.ajax({
+function departmentSelect(){
+    $(document).ready(function(){
+        $.ajax({
             url: "libs/php/getAllDepartments.php",
             type: "POST",
             dataType: "json",
@@ -46,37 +9,88 @@ $(document).ready(function(){
             success: function(result){
                 console.log(result)
                 
-        result.data.forEach(department => {
-        $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
+                result.data.forEach(department => {
+                    $('#department').append(`<option value="${department.name}">${department.name}</option>`)
+                    $('#departmentInput').append(`<option value="${department.id}">${department.name}</option>`)
+                    $('#departmentInputNew').append(`<option value="${department.id}">${department.name}</option>`)
                     
-    
-    
-                })}})})
-//Personell List
-$(document).ready(function(){
-    $.ajax({
-            url: "libs/php/getAll.php",
+                })}})
+    })
+}
+
+
+
+// Location select 
+function locationSelect(){
+    $(document).ready(function(){
+        $.ajax({
+            url: "libs/php/getAllLocations.php",
             type: "POST",
             dataType: "json",
-        
+    
             success: function(result){
-                // console.log(result)
-
-                $('#department').html(`<option value="">All Departments</option>`)
-                $('#location').html(`<option value="">All Locations</option>`)
-                
-                result.data.forEach((person) => {
-                    // console.log(person);
-                    $('#personnelList').append(`
-                    <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
-                    <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
-                    <div class="personName">${person.firstName} ${person.lastName}<br>
-                    <p class="smallText">${person.department}, ${person.location}</p>
-                    </div></a></li>`)
+                console.log(result)
+    
+                result.data.forEach(location => {
+                    $('#location').append(`<option value="${location.name}">${location.name}</option>`);
+                    $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
+                    $('#newDepartmentLocation').append(`<option value="${location.id}">${location.name}</option>`)
                 })
+            }
+        })
+    })
+}
+
+  
+
+// Departments List
+function departmentsList(){
+    $(document).ready(function(){
+        $.ajax({
+                url: "libs/php/getAllDepartments.php",
+                type: "POST",
+                dataType: "json",
+            
+                success: function(result){
+                    console.log(result)
+                    
+            result.data.forEach(department => {
+            $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
+                        
+        
+        
+                    })}})})
+}
+
+
+//Personell List
+function personnelList(){
+    $(document).ready(function(){
+        $.ajax({
+                url: "libs/php/getAll.php",
+                type: "POST",
+                dataType: "json",
+            
+                success: function(result){
+                    // console.log(result)
     
-    
-                }})})
+                    $('#department').html(`<option value="">All Departments</option>`)
+                    $('#location').html(`<option value="">All Locations</option>`)
+                    
+                    result.data.forEach((person) => {
+                        // console.log(person);
+                        $('#personnelList').append(`
+                        <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
+                        <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
+                        <div class="personName">${person.firstName} ${person.lastName}<br>
+                        <p class="smallText">${person.department}, ${person.location}</p>
+                        </div></a></li>`)
+                    })
+        
+        
+                    }})})
+}
+
 
 // Search filter
 
@@ -431,63 +445,82 @@ function deleteDepartment(departmentID){
         $('#responseMessage').html('Department Successfully Deleted')
         $('.toast').toast('show')
 
-        
+        personnelList();
+        departmentsList();
+        locationSelect();
+        departmentSelect();
+
+
         
 
-             
-            $.ajax({
-                url: "libs/php/getAllDepartments.php",
-                type: "POST",
-                dataType: "json",
-            
-                success: function(result){
-                    console.log(result)
-                    
-                    result.data.forEach(department => {
-                        $('#department').append(`<option value="${department.name}">${department.name}</option>`)
-                        $('#departmentInput').append(`<option value="${department.id}">${department.name}</option>`)
-                        $('#departmentInputNew').append(`<option value="${department.id}">${department.name}</option>`)
-                    })}})
-
-            $.ajax({
-                url: "libs/php/getAllDepartments.php",
-                type: "POST",
-                dataType: "json",
-                    
-                        success: function(result){
-                        console.log(result)
-                            
-                    result.data.forEach(department => {
-                    $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
-             })}})
-             $.ajax({
-                url: "libs/php/getAll.php",
-                type: "POST",
-                dataType: "json",
-            
-                success: function(result){
-                    // console.log(result)
-    
-                    
-                    result.data.forEach((person) => {
-                        // console.log(person);
-                        $('#personnelList').append(`
-                        <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
-                        <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
-                        <div class="personName">${person.firstName} ${person.lastName}<br>
-                        <p class="smallText">${person.department}, ${person.location}</p>
-                        </div></a></li>`)
-                    })
-        
-        
-                    }})
           }})}
+
+// Add Department
+$('#createDepartmentBtn').click(function(){
+    $.ajax({
+        url: "libs/php/insertDepartment.php",
+        type: "POST",
+        dataType: "json",
+        data: {name: $('#newDepartment').val(),
+              locationID: $('#locationInput').val()},
+    
+        success: function(result){
+            console.log(result)
+    
+            $('#responseMessage').html('Department Successfully Added')
+            $('.toast').toast('show')
+
+            personnelList();
+        departmentsList();
+        locationSelect();
+        departmentSelect();
+
+        }
+    
+        })
+})
+
+// Add new location 
+$('#createLocationBtn').click(function(){
+    $.ajax({
+        url: "libs/php/insertLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {name: $('#newLocation').val(),
+              },
+    
+        success: function(result){
+            console.log(result)
+    
+            $('#responseMessage').html('Location Successfully Added')
+            $('.toast').toast('show')
+
+            personnelList();
+            departmentsList();
+            locationSelect();
+            departmentSelect();
+
+        }
+    
+        })
+})
 
 
 
 // Function Calls
 $(document).ready(function(){
    
+    personnelList();
+    departmentsList();
+    locationSelect();
+    departmentSelect();
+
+
+
+
+
+
+
 
    $('#editFormBtn').click(() => {
        $('#editContactForm').toggle();
