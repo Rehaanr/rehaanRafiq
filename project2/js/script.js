@@ -365,9 +365,9 @@ let deleteContact = (id) => {
                 ($('#departmentInputNew').val() == "")  ){
 
                     $('.addNewContactModalParent input').each(function(){
-                        if(!this.checkValidity()){
-                            console.log("stopped");
-                        }
+                        this.checkValidity()
+                           
+                        
                         
                         })
                     } else {
@@ -384,6 +384,9 @@ let deleteContact = (id) => {
                             },
                     
                             success: function(result){
+
+                                $('#newPersonSave').attr('data-bs-dismiss', 'modal')
+                                
                                     
                                 $('#responseMessage').html('Successfully Added')
                                     $('.toast').toast('show');
