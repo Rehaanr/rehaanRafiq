@@ -77,8 +77,8 @@ function personnelList(){
                 success: function(result){
                     // console.log(result)
     
-                    $('#department').html(`<option value="">All Departments</option>`)
-                    $('#location').html(`<option value="">All Locations</option>`)
+                    // $('#department').html(`<option value="">All Departments</option>`)
+                    // $('#location').html(`<option value="">All Locations</option>`)
                     
                     result.data.forEach((person) => {
                         // console.log(person);
@@ -365,7 +365,9 @@ let deleteContact = (id) => {
                 ($('#departmentInputNew').val() == "")  ){
 
                     $('.addNewContactModalParent input').each(function(){
-                        this.checkValidity()
+                        this.reportValidity()
+
+                        $('.addNewContactModalParent input').css('border', '0.7px solid red');
                            
                         
                         
@@ -385,7 +387,7 @@ let deleteContact = (id) => {
                     
                             success: function(result){
 
-                                $('#newPersonSave').attr('data-bs-dismiss', 'modal')
+                                $('#addPersonModal').modal('hide');
                                 
                                     
                                 $('#responseMessage').html('Successfully Added')
@@ -436,6 +438,11 @@ function getDepartmentPersonnel(departmentID){
                  <div class="personName">${iterator.firstName} ${iterator.lastName}<br>
                  <p class="smallText">${iterator.department}, ${iterator.location}</p>
                 </div></a></li>`)
+
+                    personnelList();
+                    departmentsList();
+                    locationSelect();
+                    departmentSelect();
                  
              }}})}
 
