@@ -147,3 +147,33 @@ nav{
     padding-bottom:14px;
     line-height:40px;
 }
+
+@media screen and (max-width: 900px) {
+
+.sidecol {
+    display:none;
+}
+.maincol {
+    width:100%;
+}
+
+/* } */
+
+/* ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  /* ::-webkit-scrollbar-track {
+    background: #CCC;
+  }
+  
+  /* Handle */
+  /* ::-webkit-scrollbar-thumb { */
+    /* background: #888; */
+  /* } */
+  
+  /* Handle on hover */
+  /* ::-webkit-scrollbar-thumb:hover {
+    background: #555; */ 
+  } 

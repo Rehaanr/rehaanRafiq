@@ -36,6 +36,9 @@ function locationSelect(){
                     $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
                     $('#newDepartmentLocation').append(`<option value="${location.id}">${location.name}</option>`)
                 })
+            },
+            error:function(jqXHR){
+                console.log(jqXHR);
             }
         })
     })
@@ -356,47 +359,49 @@ let deleteContact = (id) => {
         }})}
 
 // Add new contact
-    let addNewContact = () => {
-        $.ajax({
-            url: "libs/php/insertPersonnel.php",
-            type: "POST",
-            dataType: "json",
-            data: {
-                firstName: $('#firstNameInputNew').val(),
-                lastName: $('#lastNameInputNew').val(),
-                jobTitle: $('#jobTitleInputNew').val(),
-                email:  $('#emailInputNew').val(),
-                departmentId: $('#departmentInputNew').val()
-            },
-    
-            success: function(result){
-               
-                $('#responseMessage').html('Successfully Added')
-                $('.toast').toast('show');
+    $('#newPersonSave').click(function(){
+        if($('#firstNameInputNew').val() == "" ||  ($('#lastNameInputNew').val() == "")
+                || ($('#jobTitleInputNew').val() == "") || ($('#emailInputNew').val() == "") || 
+                ($('#departmentInputNew').val() == "")  ){
 
-                $.ajax({
-                    url: "libs/php/getAll.php",
-                    type: "POST",
-                    dataType: "json",
-                
-                    success: function(result){
-                        // console.log(result)
-                        $('#personnelList').html(``);
+                    $('.addNewContactModalParent input').each(function(){
+                        if(!this.checkValidity()){
+                            console.log("stopped");
+                        }
                         
-                        
-                        result.data.forEach((person) => {
-                            // console.log(person);
-                            $('#personnelList').append(`
-                            <li><a href="#" onClick="getPersonDetails(${person.id})" data-bs-toggle="modal" data-bs-target="#personnelModal"> 
-                            <div class="personIcon">${person.firstName[0]}${person.lastName[0]}</div>
-                            <div class="personName">${person.firstName} ${person.lastName}<br>
-                            <p class="smallText">${person.department}, ${person.location}</p>
-                            </div></a></li>`)
-                        }) }})
+                        })
+                    } else {
+                        $.ajax({
+                        url: "libs/php/insertPersonnel.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            firstName: $('#firstNameInputNew').val(),
+                            lastName: $('#lastNameInputNew').val(),
+                            jobTitle: $('#jobTitleInputNew').val(),
+                                email:  $('#emailInputNew').val(),
+                                departmentId: $('#departmentInputNew').val()
+                            },
+                    
+                            success: function(result){
+                                    
+                                $('#responseMessage').html('Successfully Added')
+                                    $('.toast').toast('show');
+
+                                    personnelList();
+                                    departmentsList();
+                                    locationSelect();
+                                    departmentSelect();
+            
+                    
+                                   
+                                }})}
+    })
+    
+        
                 
-            }
-        })
-    }
+       
+                
  
 function getDepartmentPersonnel(departmentID){
     $.ajax({
@@ -434,7 +439,7 @@ function getDepartmentPersonnel(departmentID){
 // Delete Department
 function deleteDepartment(departmentID){
     $.ajax({
-        url: "libs/php/deleteDepartmentByID.php",
+        url: "libs/php/getDepartmentSize.php",
         type: "POST",
         dataType: "json",
         data: {departmentID: departmentID},
@@ -442,43 +447,62 @@ function deleteDepartment(departmentID){
         success: function(result){
             console.log(result)
 
-        $('#responseMessage').html('Department Successfully Deleted')
-        $('.toast').toast('show')
+            if(result.data.length >= 1) {
+                $('#RemoveDependModal').modal('show');
+            } else {
+                $.ajax({
+                    url: "libs/php/deleteDepartmentByID.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {departmentID: departmentID},
+            
+                    success: function(result){
+                        console.log(result)
+            
+                    $('#responseMessage').html('Department Successfully Deleted')
+                    $('.toast').toast('show')
+            
+                    personnelList();
+                    departmentsList();
+                    locationSelect();
+                    departmentSelect();
+            
+            
+                    
+            
+                      }})
+            }
 
-        personnelList();
-        departmentsList();
-        locationSelect();
-        departmentSelect();
-
-
-        
-
-          }})}
+          }})
+    }
 
 // Add Department
-$('#createDepartmentBtn').click(function(){
-    $.ajax({
-        url: "libs/php/insertDepartment.php",
-        type: "POST",
-        dataType: "json",
-        data: {name: $('#newDepartment').val(),
-              locationID: $('#locationInput').val()},
+$(document).ready(function(){
+    $('#createDepartmentBtn').click(function(){
+        $.ajax({
+            url: "libs/php/insertDepartment.php",
+            type: "POST",
+            dataType: "json",
+            data: {name: $('#newDepartment').val(),
+            locationID: $('#locationInput').val()},
+        
+            success: function(result){
+                console.log(result)
+        
+                $('#responseMessage').html('Department Successfully Added')
+                $('.toast').toast('show')
     
-        success: function(result){
-            console.log(result)
+                personnelList();
+                departmentsList();
+                locationSelect();
+                departmentSelect();
     
-            $('#responseMessage').html('Department Successfully Added')
-            $('.toast').toast('show')
-
-            personnelList();
-        departmentsList();
-        locationSelect();
-        departmentSelect();
-
-        }
-    
-        })
+            }
+        
+            })
+    })
 })
+
 
 // Add new location 
 $('#createLocationBtn').click(function(){
@@ -544,4 +568,3 @@ $(document).ready(function(){
    })
 
    });
-    
