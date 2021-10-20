@@ -1,3 +1,9 @@
+$(window).on('load', function(){
+    $('.loader').fadeOut(1000);
+    $('.content').fadeIn(1000);
+})
+
+
 // Departments select
 function departmentSelect(){
     $(document).ready(function(){
@@ -8,6 +14,8 @@ function departmentSelect(){
         
             success: function(result){
                 console.log(result)
+
+                $('#department').html(`<option value="">All Departments</option>`)
                 
                 result.data.forEach(department => {
                     $('#department').append(`<option value="${department.name}">${department.name}</option>`)
@@ -17,6 +25,7 @@ function departmentSelect(){
                 })}})
     })
 }
+
 
 
 
@@ -30,11 +39,14 @@ function locationSelect(){
     
             success: function(result){
                 console.log(result)
+
+                $('#location').html(`<option value="">All Locations</option>`);
     
                 result.data.forEach(location => {
                     $('#location').append(`<option value="${location.name}">${location.name}</option>`);
                     $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
                     $('#newDepartmentLocation').append(`<option value="${location.id}">${location.name}</option>`)
+                    $('#locationsList').append(`<li><a href="#" value="${location.id}">${location.name}</a></li>`);
                 })
             },
             error:function(jqXHR){
@@ -59,11 +71,15 @@ function departmentsList(){
                     
             result.data.forEach(department => {
             $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
-                        
+            
+             
+            // $('#deleteDepartmentBtn').attr('onClick',`deleteDepartment(${personnel[0].departmentID})`);
+            // $('#singleDepartmentName').html(department.name);
         
         
                     })}})})
 }
+
 
 
 //Personell List
@@ -235,6 +251,17 @@ $('#department, #location').on('change', function(){
         }})
 })
 
+function refreshAll(){
+    $('#department').html("");
+    $('#departmentInput').html("");
+    $('#departmentInputNew').html("")
+    $('#location').html("");
+    $("#locationInput").html("");
+    $("#newDepartmentLocation").html("");
+    $('#departmentsList').html("");
+    $('#personnelList').html("");
+}
+
 // Person modal details function
 let getPersonDetails = (personId) => {
     $.ajax({
@@ -250,6 +277,7 @@ let getPersonDetails = (personId) => {
              let personnel = result['data']['personnel'];
              let department = result['data']['department'];
              
+
              
             let findPerson;
             findPerson = personnel.filter(person => person.id == personId)
@@ -392,11 +420,16 @@ let deleteContact = (id) => {
                                     
                                 $('#responseMessage').html('Successfully Added')
                                     $('.toast').toast('show');
+                                    
+                                    $('#firstNameInputNew').val("");
+                                     $('#lastNameInputNew').val("");
+                                    $('#jobTitleInputNew').val("");
+                                    $('#emailInputNew').val("");
+
+                                    $('#personnelList').html(``);
 
                                     personnelList();
-                                    departmentsList();
-                                    locationSelect();
-                                    departmentSelect();
+                    
             
                     
                                    
@@ -421,13 +454,17 @@ function getDepartmentPersonnel(departmentID){
             // console.log(personId_preventCopyPaste)
              let personnel = result['data']['personnel'];
              let department = result['data']['department'];
+            console.log(department);
 
-             $('#singleDepartmentName').html(personnel[0].department);
-             console.log(personnel[0].department);
-             console.log(personnel[0].departmentID);
+            let findDepartment = department.filter(department => department.id == departmentID);
+            let foundDepartment = findDepartment[0];
+            console.log(foundDepartment);
+             $('#singleDepartmentName').html(foundDepartment.name);
+            //  console.log(personnel[0].department);
+            //  console.log(personnel[0].departmentID);
              
-            $('#deleteDepartmentBtn').attr('onClick',`deleteDepartment(${personnel[0].departmentID})`);
-            $('#deleteDepartmentName').html(personnel[0].department);
+            $('#deleteDepartmentBtn').attr('onClick',`deleteDepartment(${foundDepartment.id})`);
+            $('#deleteDepartmentName').html(foundDepartment.name);
              $('#departmentContacts').html("");
             
              for(const iterator of personnel) {
@@ -439,10 +476,7 @@ function getDepartmentPersonnel(departmentID){
                  <p class="smallText">${iterator.department}, ${iterator.location}</p>
                 </div></a></li>`)
 
-                    personnelList();
-                    departmentsList();
-                    locationSelect();
-                    departmentSelect();
+               
                  
              }}})}
 
@@ -458,6 +492,8 @@ function deleteDepartment(departmentID){
             console.log(result)
 
             if(result.data.length >= 1) {
+                $('#deleteDepartmentBtn1').attr('data-bs-target', '#RemoveDependModal');
+                $('#deleteDepartmentModal').modal('hide');
                 $('#RemoveDependModal').modal('show');
             } else {
                 $.ajax({
@@ -468,13 +504,17 @@ function deleteDepartment(departmentID){
             
                     success: function(result){
                         console.log(result)
+
+                    $('#departmentsList').html("");
             
                     $('#responseMessage').html('Department Successfully Deleted')
                     $('.toast').toast('show')
-            
-                    personnelList();
+                    
+                    $('#department').html("");
+
+
+                        
                     departmentsList();
-                    locationSelect();
                     departmentSelect();
             
             
@@ -486,9 +526,18 @@ function deleteDepartment(departmentID){
           }})
     }
 
+
+
+  
+
 // Add Department
-$(document).ready(function(){
-    $('#createDepartmentBtn').click(function(){
+$('#createDepartmentBtn').click(function(){
+    if($('#newDepartment').val() == ""){
+        $('.parentInput input').each(function(){
+            this.reportValidity()
+        $('.parentInput input').css('border', '0.7px solid red');
+        })
+    } else {
         $.ajax({
             url: "libs/php/insertDepartment.php",
             type: "POST",
@@ -498,46 +547,63 @@ $(document).ready(function(){
         
             success: function(result){
                 console.log(result)
-        
+                $('#createDepartmentModal').modal('hide');
                 $('#responseMessage').html('Department Successfully Added')
                 $('.toast').toast('show')
+
+                $('#departmentsList').html("");
+                $('#newDepartment').val("");
+                
     
-                personnelList();
+    
                 departmentsList();
-                locationSelect();
                 departmentSelect();
     
             }
         
             })
+    }
+      
     })
-})
 
-
+  
 // Add new location 
 $('#createLocationBtn').click(function(){
-    $.ajax({
-        url: "libs/php/insertLocation.php",
-        type: "POST",
-        dataType: "json",
-        data: {name: $('#newLocation').val(),
-              },
-    
-        success: function(result){
-            console.log(result)
-    
-            $('#responseMessage').html('Location Successfully Added')
-            $('.toast').toast('show')
-
-            personnelList();
-            departmentsList();
-            locationSelect();
-            departmentSelect();
-
-        }
-    
+    if($('#newLocation').val() == ""){
+        $('.locationRequired input').each(function(){
+            this.reportValidity()
+        $('.locationRequired input').css('border', '0.7px solid red');
         })
+    } else {
+        $.ajax({
+            url: "libs/php/insertLocation.php",
+            type: "POST",
+            dataType: "json",
+            data: {name: $('#newLocation').val(),
+                  },
+        
+            success: function(result){
+                console.log(result)
+                $('#createLocationModal').modal('hide');
+                $('#responseMessage').html('Location Successfully Added')
+                $('.toast').toast('show')
+
+                $('#newLocation').val("");
+    
+                $('#location').html("");
+                $('#locationInput').html("")
+                $('#newDepartmentLocation').html("")
+                
+                locationSelect();
+                
+    
+            }
+        
+            })
+    }
+ 
 })
+
 
 
 

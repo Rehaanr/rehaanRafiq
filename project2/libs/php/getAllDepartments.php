@@ -56,6 +56,10 @@
    
    	$data = [];
 
+    // usort($data, function($a,$b){
+    //     return strcmp($a->name, $b->name);
+    // });
+
 	while ($row = mysqli_fetch_assoc($result)) {
 
 		array_push($data, $row);
