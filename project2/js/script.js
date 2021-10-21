@@ -41,12 +41,12 @@ function locationSelect(){
                 console.log(result)
 
                 $('#location').html(`<option value="">All Locations</option>`);
-    
+                $('#locationsList').html("");
                 result.data.forEach(location => {
                     $('#location').append(`<option value="${location.name}">${location.name}</option>`);
                     $('#locationInput').append(`<option value="${location.id}">${location.name}</option>`)
                     $('#newDepartmentLocation').append(`<option value="${location.id}">${location.name}</option>`)
-                    $('#locationsList').append(`<li><a href="#" value="${location.id}">${location.name}</a></li>`);
+                    $('#locationsList').append(`<li><a href="#" onClick="getLocationPersonnel(${location.id})" data-bs-toggle="modal" data-bs-target="#editLocationModal" value="${location.id}">${location.name}</a></li>`);
                 })
             },
             error:function(jqXHR){
@@ -449,16 +449,16 @@ function getDepartmentPersonnel(departmentID){
         data: {departmentId: departmentID},
 
         success: function(result){
-            console.log(result)
+            // console.log(result)
 
             // console.log(personId_preventCopyPaste)
              let personnel = result['data']['personnel'];
              let department = result['data']['department'];
-            console.log(department);
+            // console.log(department);
 
             let findDepartment = department.filter(department => department.id == departmentID);
             let foundDepartment = findDepartment[0];
-            console.log(foundDepartment);
+            // console.log(foundDepartment);
              $('#singleDepartmentName').html(foundDepartment.name);
             //  console.log(personnel[0].department);
             //  console.log(personnel[0].departmentID);
@@ -468,7 +468,7 @@ function getDepartmentPersonnel(departmentID){
              $('#departmentContacts').html("");
             
              for(const iterator of personnel) {
-                 console.log(iterator);
+                 
                  $('#departmentContacts').append(`
                  <li><a href="#">
                  <div class="personIcon">${iterator.firstName[0]}${iterator.lastName[0]}</div>
@@ -479,6 +479,44 @@ function getDepartmentPersonnel(departmentID){
                
                  
              }}})}
+
+// Get Location Personnel
+function getLocationPersonnel(locationID){
+    $.ajax({
+        url: "libs/php/getPersonnelByLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {id: locationID},
+
+        success: function(result){
+            console.log(result)
+
+            let personnel = result['data']['personnel'];
+             let locations = result['data']['locations'];
+            console.log(personnel);
+
+            let findLocation = locations.filter(location => location.id == locationID);
+            let foundLocation = findLocation[0];
+            console.log(foundLocation);
+
+
+            $('#singleLocationName').html(foundLocation.name)
+
+            $('#locationContacts').html("");
+           
+            for(const iterator of personnel) {
+                $('#locationContacts').append(`
+                <li><a href="#">
+                <div class="personIcon">${iterator.firstName[0]}${iterator.lastName[0]}</div>
+                <div class="personName">${iterator.firstName} ${iterator.lastName}<br>
+                <p class="smallText">${iterator.department}, ${iterator.location}</p>
+               </div></a></li>`)}
+
+
+               
+                 
+             }})}
+
 
 // Delete Department
 function deleteDepartment(departmentID){
@@ -492,7 +530,7 @@ function deleteDepartment(departmentID){
             console.log(result)
 
             if(result.data.length >= 1) {
-                $('#deleteDepartmentBtn1').attr('data-bs-target', '#RemoveDependModal');
+                
                 $('#deleteDepartmentModal').modal('hide');
                 $('#RemoveDependModal').modal('show');
             } else {
@@ -504,7 +542,7 @@ function deleteDepartment(departmentID){
             
                     success: function(result){
                         console.log(result)
-
+                    $('#deleteDepartmentModal').modal('show');
                     $('#departmentsList').html("");
             
                     $('#responseMessage').html('Department Successfully Deleted')

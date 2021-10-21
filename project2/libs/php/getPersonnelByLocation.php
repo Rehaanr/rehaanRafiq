@@ -1,5 +1,8 @@
 <?php
 
+	// example use from browser
+	// http://localhost/companydirectory/libs/php/getPersonnel.php?id=1
+
 	// remove next two lines for production
 	
 	ini_set('display_errors', 'On');
@@ -29,7 +32,44 @@
 
 	}	
 
-	$query = 'SELECT id, name FROM location ORDER BY id, name';
+	// first query
+
+	$query = 'SELECT p.lastName, p.firstName, p.jobTitle, p.departmentID, p.id, p.email, d.name as department, l.name as location
+				 FROM personnel p
+				 LEFT JOIN department d ON (d.id = p.departmentID) 
+				 LEFT JOIN location l ON (l.id = d.locationID)
+				 WHERE l.id =' . $_REQUEST['id']. ' ORDER BY p.lastName, p.firstName, d.name, l.name';
+    
+    
+
+	$result = $conn->query($query);
+	
+	if (!$result) {
+
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "query failed";	
+		$output['data'] = $conn->error;
+
+		mysqli_close($conn);
+
+		echo json_encode($output); 
+
+		exit;
+
+	}
+   
+   	$personnel = [];
+
+	while ($row = mysqli_fetch_assoc($result)) {
+
+		array_push($personnel, $row);
+
+	}
+
+	// second query
+
+	$query = 'SELECT id, name from location ORDER BY id';
 
 	$result = $conn->query($query);
 	
@@ -48,23 +88,20 @@
 
 	}
    
-   	$data = [];
+   	$department = [];
 
-	while ($row = mysqli_fetch_object($result)) {
+	while ($row = mysqli_fetch_assoc($result)) {
 
-		array_push($data, $row);
+		array_push($department, $row);
 
 	}
-
-    usort($data, function($a,$b){
-        return strcmp($a->name, $b->name);
-    });
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $data;
+	$output['data']['personnel'] = $personnel;
+	$output['data']['locations'] = $department;
 	
 	mysqli_close($conn);
 

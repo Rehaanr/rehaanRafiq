@@ -51,7 +51,7 @@ nav{
     width: 100%;
 }
 
-#departmentsList, #personnelList, #departmentContacts, #locationsList {
+#departmentsList, #personnelList, #departmentContacts, #locationsList, #locationContacts {
     list-style:none;
     margin:0;
     padding:0;
@@ -59,7 +59,7 @@ nav{
     
 }
 
-#departmentsList li, #personnelList li, #locationsList li {
+#departmentsList li, #personnelList li, #locationsList li, #locationContacts li {
     padding-left:15px;
     padding-right:15px;
 }
@@ -114,6 +114,14 @@ nav{
 
 #locationsList li a {
     border-bottom: 1px solid #FFF;
+}
+
+#locationsList li a:first-child{
+    border-right: 1px solid #fff;
+}
+
+#locationsList li a::nth-child(2){
+    border-right:none;
 }
 
 #personnelList li a{
@@ -186,13 +194,13 @@ nav{
     font-weight: 400;
 }
 
-#departmentContacts  {
+#departmentContacts, #locationContacts {
    margin-top: 0px;
 
     
 }
 
-#departmentContacts li a{
+#departmentContacts li a, #locationContacts li a{
     padding-top:13px;
     padding-bottom:14px;
     line-height:40px;

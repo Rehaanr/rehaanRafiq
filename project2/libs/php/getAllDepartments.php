@@ -56,15 +56,17 @@
    
    	$data = [];
 
-    // usort($data, function($a,$b){
-    //     return strcmp($a->name, $b->name);
-    // });
+    
 
-	while ($row = mysqli_fetch_assoc($result)) {
+	while ($row = mysqli_fetch_object($result)) {
 
 		array_push($data, $row);
 
 	}
+
+    usort($data, function($a,$b){
+        return strcmp($a->name, $b->name);
+    });
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
