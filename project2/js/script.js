@@ -349,6 +349,49 @@ let updateContact = (personId) => {
                         <p class="smallText">${person.department}, ${person.location}</p>
                         </div></a></li>`)
         })}})}})}
+
+//Update Department Name
+let updateDepartmentName = (departmentID) => {
+    $.ajax({
+        url: "libs/php/updateDepartmentName.php",
+        type: "POST",
+        dataType: "json",
+        data: {id: departmentID,
+        name: $('#departmentInputName').val()
+        },
+
+        success: function(result){
+            console.log(result)
+
+
+
+            $('#editDepartmentModal').modal('hide');
+            $('#responseMessage').html('Successfully Saved')
+            $('.toast').toast('show');
+        }})}
+
+
+// Update Location Name
+let updateLocationName = (locationID) => {
+    $.ajax({
+        url: "libs/php/updateLocationName.php",
+        type: "POST",
+        dataType: "json",
+        data: {id: locationID,
+        name: $('#locationInputName').val()
+        },
+
+        success: function(result){
+            console.log(result)
+
+
+
+            $('#editLocationModal').modal('hide');
+            $('#responseMessage').html('Successfully Saved')
+            $('.toast').toast('show');
+        }})}
+
+
  // Delete contact   
 
 let deleteContact = (id) => {
@@ -450,7 +493,8 @@ function getDepartmentPersonnel(departmentID){
 
         success: function(result){
             // console.log(result)
-
+            $('#departmentInputName').hide();
+            $('#saveDepBtn').hide();
             // console.log(personId_preventCopyPaste)
              let personnel = result['data']['personnel'];
              let department = result['data']['department'];
@@ -462,7 +506,8 @@ function getDepartmentPersonnel(departmentID){
              $('#singleDepartmentName').html(foundDepartment.name);
             //  console.log(personnel[0].department);
             //  console.log(personnel[0].departmentID);
-             
+            $('#departmentInputName').val(foundDepartment.name);
+             $('#saveDepBtn').attr('onClick', `updateDepartmentName(${foundDepartment.id})`)
             $('#deleteDepartmentBtn').attr('onClick',`deleteDepartment(${foundDepartment.id})`);
             $('#deleteDepartmentName').html(foundDepartment.name);
              $('#departmentContacts').html("");
@@ -494,14 +539,17 @@ function getLocationPersonnel(locationID){
             let personnel = result['data']['personnel'];
              let locations = result['data']['locations'];
             console.log(personnel);
+            $('#locationInputName').hide();
+            $('#saveLocBtn').hide();
 
             let findLocation = locations.filter(location => location.id == locationID);
             let foundLocation = findLocation[0];
             console.log(foundLocation);
 
-
+            $('#deleteLocationBtn').attr('onClick',`deleteLocation(${foundLocation.id})`);
+            $('#saveLocBtn').attr('onClick', `updateLocationName(${foundLocation.id})`)
             $('#singleLocationName').html(foundLocation.name)
-
+            $('#locationInputName').val(foundLocation.name);
             $('#locationContacts').html("");
            
             for(const iterator of personnel) {
@@ -528,9 +576,10 @@ function deleteDepartment(departmentID){
 
         success: function(result){
             console.log(result)
-
-            if(result.data.length >= 1) {
-                
+            $('#change').html("department");
+            if(result.data[0]["count(id)"] > 0) {
+                $('#numberOfContacts').html("");
+                $('#numberOfContacts').html(result.data[0]["count(id)"]);
                 $('#deleteDepartmentModal').modal('hide');
                 $('#RemoveDependModal').modal('show');
             } else {
@@ -542,29 +591,68 @@ function deleteDepartment(departmentID){
             
                     success: function(result){
                         console.log(result)
-                    $('#deleteDepartmentModal').modal('show');
-                    $('#departmentsList').html("");
-            
-                    $('#responseMessage').html('Department Successfully Deleted')
-                    $('.toast').toast('show')
                     
-                    $('#department').html("");
+                        $('#RemoveDependModal').modal('hide');
+                        $('#deleteDepartmentModal').modal('show');
 
-
+                    
+                    
+                    $('#deleteDepartmentBtn').on('click', function(){
+                        $('#responseMessage').html('Department Successfully Deleted')
+                        $('.toast').toast('show')
                         
-                    departmentsList();
-                    departmentSelect();
+                        $('#department').html("");
+                        $('#departmentsList').html("");
+                        departmentsList();
+                        departmentSelect();
+                    })
+                }})
+            }}})}
+
+// Delete Location
+function deleteLocation(locationID){
+    $.ajax({
+        url: "libs/php/getLocationSize.php",
+        type: "POST",
+        dataType: "json",
+        data: {id: locationID},
+
+        success: function(result){
+            console.log(result)
+           
             
+            if(result.data[0]["count(id)"] > 0) {
+                $('#numberOfLocationContacts').html("");
+                $('#numberOfLocationContacts').html(result.data[0]["count(id)"]);
+                $('#deleteLocationModal').modal('hide');
+                $('#RemoveLocationDependModal').modal('show');
+            } else {
+                $.ajax({
+                    url: "libs/php/deleteLocationByID.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {id: locationID},
             
+                    success: function(result){
+                        console.log(result)
                     
-            
-                      }})
+                        $('#RemoveLocationDependModal').modal('hide');
+                        $('#deleteLocationModal').modal('show');
+
+                    
+                    
+                    $('#deleteLocationModalBtn').on('click', function(){
+                        $('#responseMessage').html('Location Successfully Deleted')
+                        $('.toast').toast('show')
+                        
+                        $('#location').html("");
+                        $('#locationsList').html("");
+                        locationSelect();
+                    })
+                }})
             }
 
-          }})
-    }
-
-
+           }})}
 
   
 
@@ -655,9 +743,38 @@ $(document).ready(function(){
 
 
 
+$('#editDepBtn').click(() => {
+    $('#singleDepartmentName').hide();
+    $('#editDepBtn').hide();
+    $('#departmentName').hide();
+    $('#saveDepBtn').show();
+    $('#departmentInputName').show();
+}) 
+
+    $('#backButton').click(()=>{
+        $('#singleDepartmentName').show();
+        $('#editDepBtn').show();
+        $('#saveDepBtn').hide();
+        $('#departmentInputName').hide();
 
 
+    })
 
+$('#backLocBtn').click(()=> {
+    $('#singleLocationName').show();
+    $('#editLocBtn').show();
+    $('#saveLocBtn').hide();
+    $('#locationInputName').hide();
+})
+
+$('#editLocBtn').click(()=>{
+    $('#singleLocationName').hide();
+    $('#editLocBtn').hide();
+    $('#locationName').hide();
+    $('#saveLocBtn').show();
+    $('#locationInputName').show();
+
+})
 
 
    $('#editFormBtn').click(() => {

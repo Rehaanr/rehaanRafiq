@@ -79,7 +79,13 @@ nav{
     
 }
 
-#departmentsList li a, #personnelList li a, #departmentContacts li a, #locationsList li a {
+#singleDepartmentName{
+    text-align: center;
+    align-items: center;
+}
+
+#departmentsList li a, #personnelList li a, #departmentContacts li a, #locationsList li a,
+#locationContacts li a {
     display:block;
     padding-top:15px;
     padding-bottom:18px;
