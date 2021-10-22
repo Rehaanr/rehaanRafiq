@@ -56,7 +56,29 @@ function locationSelect(){
     })
 }
 
-  
+//Location List
+function locationList(){
+    $(document).ready(function(){
+        $.ajax({
+            url: "libs/php/getAllLocations.php",
+            type: "POST",
+            dataType: "json",
+    
+            success: function(result){
+                console.log(result)
+
+                
+                $('#locationsList').html("");
+                result.data.forEach(location => {
+                 $('#locationsList').append(`<li><a href="#" onClick="getLocationPersonnel(${location.id})" data-bs-toggle="modal" data-bs-target="#editLocationModal" value="${location.id}">${location.name}</a></li>`);
+                })
+            },
+            error:function(jqXHR){
+                console.log(jqXHR);
+            }
+        })
+    })
+} 
 
 // Departments List
 function departmentsList(){
@@ -555,7 +577,6 @@ function getLocationPersonnel(locationID){
             $('#deleteLocationBtn').attr('onClick',`deleteLocation(${foundLocation.id})`);
             $('#saveLocBtn').attr('onClick', `updateLocationName(${foundLocation.id})`)
             $('#singleLocationName').html(foundLocation.name)
-            $("#locationName").html(foundLocation.name)
             $('#locationInputName').val(foundLocation.name);
             $('#locationContacts').html("");
            
@@ -590,31 +611,33 @@ function deleteDepartment(departmentID){
                 $('#deleteDepartmentModal').modal('hide');
                 $('#RemoveDependModal').modal('show');
             } else {
-                $.ajax({
-                    url: "libs/php/deleteDepartmentByID.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {departmentID: departmentID},
-            
-                    success: function(result){
-                        console.log(result)
-                    
-                        $('#RemoveDependModal').modal('hide');
-                        $('#deleteDepartmentModal').modal('show');
 
-                    
-                    
-                    $('#deleteDepartmentBtn').on('click', function(){
-                        $('#responseMessage').html('Department Successfully Deleted')
-                        $('.toast').toast('show')
+
+                $('#RemoveDependModal').modal('hide');
+                $('#deleteDepartmentModal').modal('show');
+
+                $('#deleteDepartmentBtn').on('click', function(){
+                    $.ajax({
+                        url: "libs/php/deleteDepartmentByID.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {departmentID: departmentID},
+                
+                        success: function(result){
+                            console.log(result)
                         
-                        $('#department').html("");
-                        $('#departmentsList').html("");
-                        departmentsList();
-                        departmentSelect();
-                    })
-                }})
-            }}})}
+                            $('#responseMessage').html('Department Successfully Deleted')
+                            $('.toast').toast('show')
+                            
+                            $('#department').html("");
+                            $('#departmentsList').html("");
+                            departmentsList();
+                            departmentSelect();
+    
+                        
+                        }})
+                  })
+}}})}
 
 // Delete Location
 function deleteLocation(id){
@@ -634,6 +657,12 @@ function deleteLocation(id){
                 $('#deleteLocationModal').modal('hide');
                 $('#RemoveLocationDependModal').modal('show');
             } else {
+
+                $('#RemoveLocationDependModal').modal('hide');
+                $('#deleteLocationModal').modal('show');
+
+                $('#deleteLocationBtn').on('click', function(){
+
                 $.ajax({
                     url: "libs/php/deleteLocationByID.php",
                     type: "POST",
@@ -642,23 +671,11 @@ function deleteLocation(id){
             
                     success: function(result){
                         console.log(result)
-                    
-                        $('#RemoveLocationDependModal').modal('hide');
-                        $('#deleteLocationModal').modal('show');
-
-                    
-                    
-                    $('#deleteLocationBtn').on('click', function(){
-                        $('#responseMessage').html('Location Successfully Deleted')
-                        $('.toast').toast('show')
-                        $('#location').html("");
-                        $('#locationsList').html("");
-                        locationSelect();
-                    })
-                }})
-            }
-
-           }})}
+                        locationList();
+                    $('#responseMessage').html('Location Successfully Deleted')
+                    $('.toast').toast('show')
+                    }})
+                })}}})}
 
   
 
