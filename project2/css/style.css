@@ -101,34 +101,32 @@ nav{
     background-color: #0C6DFD;
 } */
 
-#locationsH5{
+/* #locationsH5{
     text-align: center;
     font-size: 1.4em;
     
     
-}
+} */
 
-#locationsList li{
-    display: inline-block;
-    width: 50%;
+/* #locationsList li{
+    display: block;
+    width: 100%;
     text-align: center;
     background-color: #EFEFEF;
     color: black;
     padding: 4px;
     
-}
+} */
 
-#locationsList li a {
+/* #locationsList li a {
     border-bottom: 1px solid #FFF;
-}
+} */
 
-#locationsList li a:first-child{
+/* #locationsList li a:first-child{
     border-right: 1px solid #fff;
-}
+} */
 
-#locationsList li a::nth-child(2){
-    border-right:none;
-}
+
 
 #personnelList li a{
     border-bottom: 1px solid rgb(201, 201, 201);
@@ -191,7 +189,7 @@ nav{
 .toast-container,.toast-body,#liveToast,.d-flex {
     width: 100%;
     border-radius: 35;
-    height: 15vh;
+    height: 8vh;
 }
 
 #responseMessage{

@@ -540,19 +540,22 @@ function getLocationPersonnel(locationID){
         success: function(result){
             console.log(result)
 
+
             let personnel = result['data']['personnel'];
              let locations = result['data']['locations'];
             console.log(personnel);
+            console.log(locations);
             $('#locationInputName').hide();
             $('#saveLocBtn').hide();
 
             let findLocation = locations.filter(location => location.id == locationID);
             let foundLocation = findLocation[0];
             console.log(foundLocation);
-
+            $('#locationName').html(foundLocation.name)
             $('#deleteLocationBtn').attr('onClick',`deleteLocation(${foundLocation.id})`);
             $('#saveLocBtn').attr('onClick', `updateLocationName(${foundLocation.id})`)
             $('#singleLocationName').html(foundLocation.name)
+            $("#locationName").html(foundLocation.name)
             $('#locationInputName').val(foundLocation.name);
             $('#locationContacts').html("");
            
@@ -614,12 +617,12 @@ function deleteDepartment(departmentID){
             }}})}
 
 // Delete Location
-function deleteLocation(locationID){
+function deleteLocation(id){
     $.ajax({
         url: "libs/php/getLocationSize.php",
         type: "POST",
         dataType: "json",
-        data: {id: locationID},
+        data: {id: id},
 
         success: function(result){
             console.log(result)
@@ -627,7 +630,7 @@ function deleteLocation(locationID){
             
             if(result.data[0].pc > 0) {
                 $('#numberOfLocationContacts').html("");
-                $('#numberOfLocationContacts').html(result.data[0].pc );
+                $('#numberOfLocationContacts').html(result.data[0].pc);
                 $('#deleteLocationModal').modal('hide');
                 $('#RemoveLocationDependModal').modal('show');
             } else {
@@ -635,7 +638,7 @@ function deleteLocation(locationID){
                     url: "libs/php/deleteLocationByID.php",
                     type: "POST",
                     dataType: "json",
-                    data: {id: locationID},
+                    data: {id: id},
             
                     success: function(result){
                         console.log(result)
@@ -645,10 +648,9 @@ function deleteLocation(locationID){
 
                     
                     
-                    $('#deleteLocationModalBtn').on('click', function(){
+                    $('#deleteLocationBtn').on('click', function(){
                         $('#responseMessage').html('Location Successfully Deleted')
                         $('.toast').toast('show')
-                        
                         $('#location').html("");
                         $('#locationsList').html("");
                         locationSelect();
