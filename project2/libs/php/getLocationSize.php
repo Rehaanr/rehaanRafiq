@@ -33,7 +33,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'SELECT count(id) as pc, locationID FROM department WHERE locationID = ' . $_REQUEST['id']. ' GROUP BY locationID';
+	$query = 'SELECT count(id) as pc, locationID FROM department WHERE locationID = ' . $_REQUEST['locationID']. ' GROUP BY locationID';
 
 	$result = $conn->query($query);
 	

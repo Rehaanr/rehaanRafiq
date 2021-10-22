@@ -68,6 +68,8 @@ function departmentsList(){
             
                 success: function(result){
                     console.log(result)
+
+                    $('#departmentsList').html("");
                     
             result.data.forEach(department => {
             $('#departmentsList').append(`<li><a href="#" onClick="getDepartmentPersonnel(${department.id})" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">${department.name}</a></li>`);
@@ -368,6 +370,7 @@ let updateDepartmentName = (departmentID) => {
             $('#editDepartmentModal').modal('hide');
             $('#responseMessage').html('Successfully Saved')
             $('.toast').toast('show');
+            departmentsList();
         }})}
 
 
@@ -389,6 +392,7 @@ let updateLocationName = (locationID) => {
             $('#editLocationModal').modal('hide');
             $('#responseMessage').html('Successfully Saved')
             $('.toast').toast('show');
+            locationSelect();
         }})}
 
 
@@ -621,9 +625,9 @@ function deleteLocation(locationID){
             console.log(result)
            
             
-            if(result.data[0]["count(id)"] > 0) {
+            if(result.data[0].pc > 0) {
                 $('#numberOfLocationContacts').html("");
-                $('#numberOfLocationContacts').html(result.data[0]["count(id)"]);
+                $('#numberOfLocationContacts').html(result.data[0].pc );
                 $('#deleteLocationModal').modal('hide');
                 $('#RemoveLocationDependModal').modal('show');
             } else {
