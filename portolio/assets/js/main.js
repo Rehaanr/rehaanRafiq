@@ -280,12 +280,10 @@ $('#sendMsg').on('click', function() {
             message: message
         },
 
+
+
         success: function(result) {
             console.log(result);
-
-
-
-
 
             $('.sent-message').show();
 

@@ -67,10 +67,6 @@ h6 {
     }
 }
 
-.my-3 {
-    display: none;
-}
-
 
 /*--------------------------------------------------------------
 # Back to top button
@@ -935,6 +931,7 @@ section {
 }
 
 .contact .col-lg-7 .sent-message {
+    display: none;
     color: white;
     background: #18d470;
     text-align: center;
@@ -942,9 +939,8 @@ section {
     font-weight: 600;
 }
 
-.sent-message {
-    font-size: 100px;
-    color: red;
+#message {
+    min-height: 30vh;
 }
 
 .contact .col-lg-7 .loading {
@@ -1006,6 +1002,17 @@ section {
 
 #sendMsg:hover {
     background: #37b3ed;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.row {
+    width: 100%;
 }
 
 @-webkit-keyframes animate-loading {
@@ -1074,6 +1081,15 @@ section {
     }
     .breadcrumbs ol li {
         display: inline-block;
+    }
+}
+
+@media (max-width: 780px) {
+    .logo {
+        width: 20px;
+        height: 20px;
+        margin: 40px;
+        margin-bottom: 60px;
     }
 }
 
