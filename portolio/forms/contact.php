@@ -60,9 +60,10 @@ try {
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
  
-
+    echo json_encode("Message sent.");
     //Recipients
-
+    echo json_encode("Message sent.");
+    
     $mail->setFrom('noreplyrehaanrafiq@gmail.com', 'Rehaan Rafiq');
 
     $mail->addAddress('noreplyrehaanrafiq@gmail.com');     //Add a recipient
